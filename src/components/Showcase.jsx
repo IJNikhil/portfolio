@@ -22,7 +22,7 @@ export default function Showcase({ data, achievementsData }) {
       {/* Ambient background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/4 w-[320px] h-[320px] bg-[var(--accent)]/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-1/3 right-1/4 w-[280px] h-[280px] bg-[var(--accent-secondary)]/10 blur-[100px] rounded-full" />
+        <div className="absolute bottom-1/3 right-1/4 w-[280px] h-[280px] bg-[var(--accent)]/10 blur-[100px] rounded-full" />
       </div>
 
       <Container className="relative z-10">
@@ -41,7 +41,7 @@ export default function Showcase({ data, achievementsData }) {
             className="hidden lg:block absolute left-1/2 top-0 h-full w-[2px] 
                        bg-gradient-to-b from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] 
                        opacity-60 rounded-full pointer-events-none transition-all duration-500 
-                       hover:opacity-90 hover:shadow-[0_0_25px_var(--accent-secondary)/40]"
+                       hover:opacity-90 hover:shadow-[0_0_25px_var(--accent)/40]"
           ></div>
 
           {/* === Featured Projects === */}
@@ -139,12 +139,12 @@ export default function Showcase({ data, achievementsData }) {
                     <GlassCard
                       className="p-6 sm:p-7 border border-gray-700/40 rounded-2xl 
                                  bg-[#16161a]/70 backdrop-blur-md transition-all duration-300 
-                                 hover:border-[var(--accent-secondary)]/50 hover:shadow-[0_0_35px_var(--accent-secondary)/15] 
+                                 hover:border-[var(--accent)]/50 hover:shadow-[0_0_35px_var(--accent)/15] 
                                  hover:-translate-y-1"
                     >
                       <h4
                         className="text-base sm:text-lg font-semibold font-serif text-white mb-2
-                                   group-hover:text-[var(--accent-secondary)] transition-colors duration-300"
+                                   group-hover:text-[var(--accent)] transition-colors duration-300"
                       >
                         {achievement.title}
                       </h4>
@@ -158,10 +158,10 @@ export default function Showcase({ data, achievementsData }) {
                           onClick={() =>
                             window.open(achievement.social, "_blank")
                           }
-                          className="border-[var(--accent-secondary)] text-[var(--accent-secondary)] 
+                          className="border-[var(--accent)] text-[var(--accent)] 
                                      rounded-lg px-5 py-2 transition-all duration-300
-                                     hover:bg-[var(--accent-secondary)] hover:text-[var(--bg)]
-                                     hover:shadow-[0_0_20px_var(--accent-secondary)/40]"
+                                     hover:bg-[var(--accent)] hover:text-[var(--bg)]
+                                     hover:shadow-[0_0_20px_var(--accent)/40]"
                         >
                           View Post →
                         </Button>

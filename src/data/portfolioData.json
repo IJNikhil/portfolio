@@ -2,24 +2,15 @@
   "hero": {
     "firstName": "Nikhil",
     "lastName": "Adam",
-    "intro": "B.Tech Computer Engineering graduate (2025) passionate about building scalable, user-focused mobile applications with Java and React Native, Python.",
+    "intro": "B.Tech Computer Engineering (2025) | Crafting scalable, user-centric mobile and web solutions with Java, React Native, and Python.",
     "linkedin": "https://www.linkedin.com/in/nikhileshwar-adam/",
     "github": "https://github.com/IJNikhil/",
-    "avatar": "src/assets/hero-avatar.png"
+    "avatar": "/assets/hero-avatar.png"
   },
   "stats": [
-    {
-      "value": "5",
-      "label": "Projects Completed"
-    },
-    {
-      "value": "200+",
-      "label": "Connections"
-    },
-    {
-      "value": "5",
-      "label": "GitHub Repos"
-    }
+    { "value": "5", "label": "Projects Completed" },
+    { "value": "200+", "label": "Professional Connections" },
+    { "value": "5", "label": "GitHub Repositories" }
   ],
   "education": [
     {
@@ -36,46 +27,46 @@
   "projects": [
     {
       "title": "TrainerSamay",
-      "description": "A full-stack scheduling platform for training centers with secure authentication, calendar-based scheduling, auto-absence detection, and report exports. Built with React, MySQL, and REST APIs.",
+      "description": "A full-stack platform for training centers with secure authentication, calendar-based scheduling, auto-absence detection, and report exports. Built with React, MySQL, and REST APIs.",
       "link": "https://github.com/IJNikhil/TrainerSamay"
     },
     {
       "title": "FarmFlow",
-      "description": "A React Native mobile app connecting farmers and consumers with dynamic pricing, AI-driven crop price prediction, and smart inventory systems. Uses Firebase and Agile methodologies.",
+      "description": "A React Native app connecting farmers and consumers with dynamic pricing, AI-driven crop price prediction, and smart inventory management. Built using Firebase and Agile methodologies.",
       "link": "https://github.com/IJNikhil/FarmFlow"
     },
     {
       "title": "ChatBotX",
-      "description": "A real-time chatbot app using Flutter, Dart, and Gemini AI API with Firebase for authentication and chat history. Features a user-friendly chat interface.",
+      "description": "A real-time chatbot app with a user-friendly interface, built using Flutter, Dart, and Gemini AI API, with Firebase for authentication and chat history storage.",
       "link": "https://github.com/IJNikhil/fluttergemini"
     },
     {
       "title": "ETESA",
-      "description": "An Android app for real-time student attendance tracking using Java and Firebase Firestore. Includes faculty authentication and secure data storage.",
+      "description": "An Android app for real-time student attendance tracking, built with Java and Firebase Firestore, featuring faculty authentication and secure data storage.",
       "link": "https://github.com/IJNikhil/ETESA"
     },
     {
       "title": "Loop",
-      "description": "A real-time communication Android app with phone number-based authentication and dynamic chat history storage using Java and Firebase Firestore.",
+      "description": "A real-time communication Android app with phone number-based authentication and dynamic chat history storage, built using Java and Firebase Firestore.",
       "link": "https://github.com/IJNikhil/Loop"
     }
   ],
   "achievements": [
     {
-      "title": "Finalist, @IIT Roorkee",
-      "description": "Led a team to develop an ML-based price prediction system at IIT Roorkee E-Summit 2024.",
+      "title": "IIT Roorkee E-Summit 2024",
+      "description": "Led a team to finalist status with an ML-based price prediction system at IIT Roorkee's E-Summit 2024 Product-A-Thon.",
       "link": "https://drive.google.com/file/d/1hVG1o0EqXot26fT-aRGcbmCjxRb1BnDs/view?usp=sharing",
       "social": "https://www.linkedin.com/posts/nikhileshwar-adam_productathonai-hackathon-iitr-activity-7161063747820634112-CADs"
     },
     {
-      "title": "Finalist, Case Compe.",
-      "description": "Delivered data-driven solutions at Symbiosis Centre for Management and HRD, Pune (StrataZeal 1.0 & 2.0).",
+      "title": "StrataZeal, SCMHRD Pune",
+      "description": "Achieved finalist status for data-driven solutions in StrataZeal 1.0 & 2.0 at Symbiosis Centre for Management and HRD, Pune.",
       "link": "https://drive.google.com/file/d/1CZKGY5GAjzxsUwX-eQPgs0CNsMZFEAB1/view?usp=sharing",
       "social": "https://www.linkedin.com/posts/nikhileshwar-adam_stratazeal-scmhrd-casecompetition-activity-7257043346202771456-3GM1"
     },
     {
-      "title": "Finalist, A-1 Launchpad",
-      "description": "Designed innovative hardware-software solutions for A-1 Fence Products Company, Mumbai.",
+      "title": "A-1 Launchpad, Mumbai",
+      "description": "Earned finalist status for innovative hardware-software solutions at A-1 Fence Products Company's Launchpad event in Mumbai.",
       "link": "https://drive.google.com/file/d/1nAxEgR-n_6rq9vDQRhNebu5Zx1z9fb6X/view?usp=sharing",
       "social": "https://www.linkedin.com/posts/nikhileshwar-adam_amazing-experience-at-a-1-launchpad-activity-7251101106552922113-y94F"
     }
@@ -108,11 +99,11 @@
   "socialLinks": [
     { "label": "GitHub", "url": "https://github.com/IJNikhil/" },
     { "label": "LinkedIn", "url": "https://www.linkedin.com/in/nikhileshwar-adam/" },
-    { "label": "Twitter", "url": "https://twitter.com/yourprofile" }
+    { "label": "Twitter", "url": "https://twitter.com/NikhilAdam_"}
   ],
   "contact": {
-    "email": "nikhileshwar.adam@example.com",
-    "intro": "Let's connect to discuss innovative projects or opportunities!",
-    "messagePlaceholder": "Your message..."
+    "email": "nikhileshwaradam@gmail.com",
+    "intro": "Let's connect to discuss innovative projects or collaboration opportunities!",
+    "messagePlaceholder": "Enter your message here..."
   }
 }
