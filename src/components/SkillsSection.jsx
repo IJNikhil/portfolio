@@ -1,4 +1,5 @@
 import { FaCode } from "react-icons/fa";
+import { motion } from "framer-motion";
 import Badge from "./ui/Badge";
 import Container from "./ui/Container";
 import SectionTitle from "./ui/SectionTitle";
@@ -7,55 +8,59 @@ export default function SkillsSection({ data }) {
   if (!data || data.length === 0) return null;
 
   return (
-    <section id="skills" className="py-8 sm:py-12 md:py-16 bg-bg scroll-mt-16">
+    <section
+      id="skills"
+      className="relative py-14 sm:py-16 bg-gradient-to-b from-[#060606] via-[#0c0c0f] to-[#090909] 
+      text-text scroll-mt-16 overflow-hidden"
+    >
+      {/* Ambient background glow */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute top-1/3 left-1/4 w-[260px] h-[260px] bg-[var(--accent)]/10 blur-[90px] rounded-full"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[220px] h-[220px] bg-[var(--accent-secondary)]/10 blur-[80px] rounded-full"></div>
+      </div>
+
       <Container>
-        <SectionTitle>Skills</SectionTitle>
-        <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center">
+        <SectionTitle>
+          <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
+            Skills
+          </span>
+        </SectionTitle>
+
+        <motion.div
+          className="flex flex-wrap justify-center gap-2.5 sm:gap-3 md:gap-4 mt-6 sm:mt-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.05 } },
+          }}
+        >
           {data.map((skill, i) => (
-            <div
+            <motion.div
               key={i}
-              className="opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]"
-              style={{ animationDelay: `${i * 0.05}s` }}
-              aria-label={`Skill: ${skill.name}`}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              whileHover={{ scale: 1.07 }}
+              transition={{ type: "spring", stiffness: 250, damping: 18 }}
             >
-              <Badge className="text-sm sm:text-base flex items-center gap-2">
-                <FaCode className="text-accent text-sm" />
-                {skill.name}
+              <Badge
+                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 
+                bg-card/30 border border-gray-700/30 backdrop-blur-md 
+                text-sm sm:text-base font-medium text-gray-200 rounded-xl 
+                hover:border-[var(--accent)] hover:text-[var(--accent)] 
+                hover:shadow-[0_0_15px_var(--accent)/40]
+                transition-all duration-300 cursor-default select-none"
+              >
+                <FaCode className="text-[var(--accent)] text-sm sm:text-base drop-shadow-[0_0_5px_var(--accent)/40]" />
+                <span className="tracking-wide font-light">{skill.name}</span>
               </Badge>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );
 }
-
-
-
-// // SkillsSection.js
-// import Badge from "./ui/Badge";
-// import Container from "./ui/Container";
-// import SectionTitle from "./ui/SectionTitle";
-
-// export default function SkillsSection({ data }) {
-//   if (!data || data.length === 0) return null;
-
-//   return (
-//     <section className="py-8 sm:py-12 md:py-16 bg-bg scroll-mt-16">
-//       <Container>
-//         <SectionTitle>Skills</SectionTitle>
-//         <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-center">
-//           {data.map((skill, i) => (
-//             <div
-//               key={i}
-//               className="opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]"
-//               style={{ animationDelay: `${i * 0.05}s` }}
-//             >
-//               <Badge className="text-sm sm:text-base">{skill.name}</Badge>
-//             </div>
-//           ))}
-//         </div>
-//       </Container>
-//     </section>
-//   );
-// }

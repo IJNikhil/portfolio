@@ -1,139 +1,110 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, Suspense } from "react";
+import { motion } from "framer-motion";
 import Container from "./ui/Container";
 import Navigation from "./Navigation";
+import { scrollToSection } from "../utils/scrollUtils";
 import fallbackAvatar from "../assets/hero-avatar.png";
 
-function TextContent({ firstName, lastName, intro }) {
-  const [displayedText, setDisplayedText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
-  const fullText = `Hi, I'm ${firstName} ${lastName}|${intro}`;
-  const nameLength = `Hi, I'm ${firstName} ${lastName}`.length;
-
-  useEffect(() => {
-    let index = 0;
-    let rafId;
-
-    const isVowel = (char) => /[aeiouAEIOU]/.test(char);
-    const typeText = () => {
-      if (index <= fullText.length) {
-        setDisplayedText(fullText.slice(0, index));
-        index++;
-        const isIntroPhase = index > nameLength;
-        const delay = isVowel(fullText[index - 1] || "") ? (isIntroPhase ? 60 : 80) : (isIntroPhase ? 80 : 120);
-        rafId = setTimeout(() => requestAnimationFrame(typeText), delay);
-      } else {
-        setShowCursor(false);
-        clearTimeout(rafId);
-      }
-    };
-
-    rafId = requestAnimationFrame(typeText);
-    return () => clearTimeout(rafId);
-  }, [fullText, nameLength]);
-
-  useEffect(() => {
-    if (displayedText.length >= fullText.length) return;
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500);
-    return () => clearInterval(cursorInterval);
-  }, [displayedText, fullText]);
-
-  const nameText = displayedText.split("|")[0] || "";
-  const introText = displayedText.split("|")[1] || "";
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -60 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8 }}
-      className="flex-1 flex flex-col justify-center text-center sm:text-left sm:pr-4 md:pr-6"
-      aria-live="polite"
-    >
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-text mb-4 font-serif">
-        {nameText.length < nameLength ? nameText : `Hi, I'm `}
-        {nameText.length >= nameLength && (
-          <span className="text-accent">{`${firstName} ${lastName}`}</span>
-        )}
-        <AnimatePresence>
-          {displayedText.length < fullText.length && (
-            <motion.span
-              key="cursor"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showCursor ? 1 : 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="inline-block w-1 h-6 sm:h-7 md:h-8 lg:h-10 bg-accent align-middle ml-1"
-            />
-          )}
-        </AnimatePresence>
-      </h1>
-      {nameText.length >= nameLength && (
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 max-w-full sm:max-w-md md:max-w-lg mx-auto sm:mx-0">
-          {introText}
-          {introText.length < intro.length && (
-            <motion.span
-              key="cursor-text"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showCursor ? 1 : 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="inline-block w-1 h-3 sm:h-4 md:h-5 bg-accent align-middle ml-1"
-            />
-          )}
-        </p>
-      )}
-    </motion.div>
-  );
-}
-
-function ImageContent({ avatar, firstName, lastName }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="flex-1 flex justify-center sm:justify-end"
-    >
-      <img
-        src={avatar || fallbackAvatar}
-        alt={`Portrait of ${firstName} ${lastName}`}
-        className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full object-cover shadow-2xl border-4 border-accent/50 transition-transform duration-300"
-        onError={(e) => (e.target.src = fallbackAvatar)}
-      />
-    </motion.div>
-  );
-}
-
 export default function HeroSection({ data }) {
+  const { firstName, lastName, intro, avatar } = data;
+
   return (
-    <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-b from-bg to-gray-900 min-h-screen flex items-center relative">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center bg-gradient-to-b from-[#090909] via-[#0d0d12] to-[#111827] overflow-hidden"
+    >
+      {/* === Navigation === */}
       <Navigation />
-<Container className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 px-4 sm:px-6 lg:px-8">
-  <Suspense fallback={<div className="flex-1" />}>
-    <TextContent
-      firstName={data.firstName}
-      lastName={data.lastName}
-      intro={data.intro}
-    />
-  </Suspense>
 
-  <Suspense
-    fallback={
-      <div className="flex-1 flex justify-center sm:justify-end">
-        <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-r from-card to-gray-800 animate-pulse" />
+      {/* === Animated Grid Background === */}
+      <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(90deg,_#00e0ff_1px,transparent_1px),linear-gradient(180deg,_#00e0ff_1px,transparent_1px)] bg-[size:40px_40px] animate-[moveGrid_25s_linear_infinite]" />
+      <style>
+        {`
+          @keyframes moveGrid {
+            from { background-position: 0 0, 0 0; }
+            to { background-position: 40px 40px, 40px 40px; }
+          }
+          @keyframes pulseSlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+          }
+          .animate-pulse-slow {
+            animation: pulseSlow 6s ease-in-out infinite;
+          }
+        `}
+      </style>
+
+      {/* === Ambient Glows === */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[var(--accent)]/10 blur-[120px] animate-pulse-slow"></div>
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[var(--accent-secondary)]/10 blur-[100px] animate-pulse-slow delay-500"></div>
       </div>
-    }
-  >
-    <ImageContent
-      avatar={data.avatar}
-      firstName={data.firstName}
-      lastName={data.lastName}
-    />
-  </Suspense>
-</Container>
 
+      <Container className="relative z-10 flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-16 lg:gap-24 px-6">
+        {/* === Left — Text Section === */}
+        <motion.div
+          initial={{ opacity: 0, x: -60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex-1 text-center sm:text-left"
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
+            Hi, I’m{" "}
+            <span className="text-[var(--accent)]">{firstName}</span>{" "}
+            <span className="text-[var(--accent-secondary)]">{lastName}</span>
+          </h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-gray-400 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mx-auto sm:mx-0 mb-8"
+          >
+            {intro}
+          </motion.p>
+
+          {/* === Buttons === */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start"
+          >
+            <button
+              onClick={() => scrollToSection("showcase")}
+              className="px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-semibold rounded-xl shadow-md hover:bg-[var(--accent-secondary)] hover:shadow-[0_0_15px_var(--accent)] transition-all duration-300"
+            >
+              View Projects
+            </button>
+            <button
+              onClick={() => scrollToSection("contactSocial")}
+              className="px-6 py-3 border border-[var(--accent)] text-[var(--accent)] font-semibold rounded-xl hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-300"
+            >
+              Contact Me
+            </button>
+          </motion.div>
+        </motion.div>
+
+        {/* === Right — Avatar Section (from last file) === */}
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex-1 flex justify-center sm:justify-end relative"
+        >
+          {/* Subtle glowing halo behind avatar */}
+          <div className="absolute inset-0 flex justify-center sm:justify-end items-center">
+            <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full bg-[var(--accent)]/10 blur-3xl animate-pulse-slow" />
+          </div>
+
+          {/* Avatar Image */}
+          <img
+            src={avatar || fallbackAvatar}
+            alt={`${firstName} ${lastName}`}
+            className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-[var(--accent)] shadow-[0_0_25px_var(--accent)] transition-transform duration-500 hover:scale-105"
+            onError={(e) => (e.target.src = fallbackAvatar)}
+          />
+        </motion.div>
+      </Container>
     </section>
   );
 }
