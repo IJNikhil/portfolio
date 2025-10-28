@@ -1,0 +1,62 @@
+backend:
+  name: github
+  repo: YOUR_USERNAME/YOUR_REPO_NAME
+  branch: main
+  site_domain: YOUR_GITHUB_PAGES_URL
+
+media_folder: src/assets
+public_folder: /assets
+
+collections:
+  - label: "Portfolio Data"
+    name: "portfolio_data"
+    file: "src/data/portfolioData.json"
+    description: "Edit all portfolio content here."
+    fields:
+      - label: "Hero"
+        name: "hero"
+        widget: "object"
+        fields:
+          - {label: "First Name", name: "firstName", widget: "string"}
+          - {label: "Last Name", name: "lastName", widget: "string"}
+          - {label: "Intro", name: "intro", widget: "text"}
+          - {label: "LinkedIn", name: "linkedin", widget: "string"}
+          - {label: "GitHub", name: "github", widget: "string"}
+          - {label: "Avatar", name: "avatar", widget: "image", default: "/assets/hero-avatar.png"}
+      - label: "Stats"
+        name: "stats"
+        widget: "list"
+        fields:
+          - {label: "Value", name: "value", widget: "string"}
+          - {label: "Label", name: "label", widget: "string"}
+      - label: "Projects"
+        name: "projects"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "Link", name: "link", widget: "string", required: false}
+      - label: "Achievements"
+        name: "achievements"
+        widget: "list"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Description", name: "description", widget: "text"}
+      - label: "Skills"
+        name: "skills"
+        widget: "list"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+      - label: "Social Links"
+        name: "socialLinks"
+        widget: "list"
+        fields:
+          - {label: "Label", name: "label", widget: "string"}
+          - {label: "URL", name: "url", widget: "string"}
+      - label: "Contact"
+        name: "contact"
+        widget: "object"
+        fields:
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Intro", name: "intro", widget: "text"}
+          - {label: "Message Placeholder", name: "messagePlaceholder", widget: "string"}
