@@ -1,0 +1,122 @@
+{
+  "hero": {
+    "firstName": "Nikhil",
+    "lastName": "Adam",
+    "intro": "B.Tech Computer Engineering graduate (2025) passionate about building scalable, user-focused mobile applications with Java and React Native, Python.",
+    "linkedin": "https://www.linkedin.com/in/nikhileshwar-adam/",
+    "github": "https://github.com/IJNikhil/",
+    "avatar": "/assets/hero-avatar.png"
+  },
+  "stats": [
+    {
+      "value": "5",
+      "label": "Projects Completed",
+      "description": "Developed mobile and web apps using React Native, Java, and other technologies."
+    },
+    {
+      "value": "200+",
+      "label": "Connections",
+      "description": "Building a professional network on LinkedIn."
+    },
+    {
+      "value": "5",
+      "label": "GitHub Repos",
+      "description": "Public repositories showcasing my coding projects."
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Tech in Computer Engineering",
+      "institution": "A. G. Patil Institute of Technology, Solapur, Maharashtra",
+      "score": "CGPA: 8.63/10"
+    },
+    {
+      "degree": "Diploma in Computer Engineering",
+      "institution": "SPM Polytechnic, Solapur, Maharashtra",
+      "score": "Percentage: 84.97% (Distinction)"
+    }
+  ],
+  "projects": [
+    {
+      "title": "TrainerSamay",
+      "description": "A full-stack scheduling platform for training centers with secure authentication, calendar-based scheduling, auto-absence detection, and report exports. Built with React, MySQL, and REST APIs.",
+      "link": "https://github.com/IJNikhil/TrainerSamay"
+    },
+    {
+      "title": "FarmFlow",
+      "description": "A React Native mobile app connecting farmers and consumers with dynamic pricing, AI-driven crop price prediction, and smart inventory systems. Uses Firebase and Agile methodologies.",
+      "link": "https://github.com/IJNikhil/FarmFlow"
+    },
+    {
+      "title": "ChatBotX",
+      "description": "A real-time chatbot app using Flutter, Dart, and Gemini AI API with Firebase for authentication and chat history. Features a user-friendly chat interface.",
+      "link": "https://github.com/IJNikhil/fluttergemini"
+    },
+    {
+      "title": "ETESA",
+      "description": "An Android app for real-time student attendance tracking using Java and Firebase Firestore. Includes faculty authentication and secure data storage.",
+      "link": "https://github.com/IJNikhil/ETESA"
+    },
+    {
+      "title": "Loop",
+      "description": "A real-time communication Android app with phone number-based authentication and dynamic chat history storage using Java and Firebase Firestore.",
+      "link": "https://github.com/IJNikhil/Loop"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Finalist, @IIT Roorkee",
+      "description": "Led a team to develop an ML-based price prediction system at IIT Roorkee E-Summit 2024.",
+      "link": "https://drive.google.com/file/d/1hVG1o0EqXot26fT-aRGcbmCjxRb1BnDs/view?usp=sharing",
+      "social": "https://www.linkedin.com/posts/nikhileshwar-adam_productathonai-hackathon-iitr-activity-7161063747820634112-CADs"
+    },
+    {
+      "title": "Finalist, Case Compe.",
+      "description": "Delivered data-driven solutions at Symbiosis Centre for Management and HRD, Pune (StrataZeal 1.0 & 2.0).",
+      "link": "https://drive.google.com/file/d/1CZKGY5GAjzxsUwX-eQPgs0CNsMZFEAB1/view?usp=sharing",
+      "social": "https://www.linkedin.com/posts/nikhileshwar-adam_stratazeal-scmhrd-casecompetition-activity-7257043346202771456-3GM1"
+    },
+    {
+      "title": "Finalist, A-1 Launchpad",
+      "description": "Designed innovative hardware-software solutions for A-1 Fence Products Company, Mumbai.",
+      "link": "https://drive.google.com/file/d/1nAxEgR-n_6rq9vDQRhNebu5Zx1z9fb6X/view?usp=sharing",
+      "social": "https://www.linkedin.com/posts/nikhileshwar-adam_amazing-experience-at-a-1-launchpad-activity-7251101106552922113-y94F"
+    }
+  ],
+  "skills": [
+    { "name": "Java" },
+    { "name": "Python" },
+    { "name": "JavaScript" },
+    { "name": "Kotlin" },
+    { "name": "Android (Java)" },
+    { "name": "React Native" },
+    { "name": "Jetpack Compose" },
+    { "name": "Manual Testing" },
+    { "name": "Test Case Design" },
+    { "name": "Test Planning" },
+    { "name": "Functional Testing" },
+    { "name": "STLC" },
+    { "name": "MySQL" },
+    { "name": "Firebase Firestore" },
+    { "name": "Git" },
+    { "name": "Visual Studio Code" },
+    { "name": "Android Studio" },
+    { "name": "Postman" },
+    { "name": "REST APIs" },
+    { "name": "Jira" },
+    { "name": "Miro" },
+    { "name": "Agile" },
+    { "name": "SDLC" },
+    { "name": "STLC" }
+  ],
+  "socialLinks": [
+    { "label": "GitHub", "url": "https://github.com/IJNikhil/" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/nikhileshwar-adam/" },
+    { "label": "Twitter", "url": "https://twitter.com/yourprofile" }
+  ],
+  "contact": {
+    "email": "nikhileshwar.adam@example.com",
+    "intro": "Let's connect to discuss innovative projects or opportunities!",
+    "messagePlaceholder": "Your message..."
+  }
+}

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0a0a;
+  --text: #e0e0e0;
+  --accent: #007bff;
+  --accent-dark: #0056b3;
+  --accent-secondary: #00c4b4;
+  --card: #1e1e1e;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(14px, 3.5vw, 16px);
+}
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+button, a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px) rotate(2deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInTooltip {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.prose-invert {
+  --tw-prose-body: #e0e0e0;
+  --tw-prose-headings: #ffffff;
+  --tw-prose-links: #007bff;
+}
+
+.category-underline {
+  transition: width 0.3s ease-in-out;
+}
+
+.category-underline:hover {
+  width: 100%;
+}
