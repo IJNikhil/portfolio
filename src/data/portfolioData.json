@@ -10,18 +10,15 @@
   "stats": [
     {
       "value": "5",
-      "label": "Projects Completed",
-      "description": "Developed mobile and web apps using React Native, Java, and other technologies."
+      "label": "Projects Completed"
     },
     {
       "value": "200+",
-      "label": "Connections",
-      "description": "Building a professional network on LinkedIn."
+      "label": "Connections"
     },
     {
       "value": "5",
-      "label": "GitHub Repos",
-      "description": "Public repositories showcasing my coding projects."
+      "label": "GitHub Repos"
     }
   ],
   "education": [
@@ -106,8 +103,7 @@
     { "name": "Jira" },
     { "name": "Miro" },
     { "name": "Agile" },
-    { "name": "SDLC" },
-    { "name": "STLC" }
+    { "name": "SDLC" }
   ],
   "socialLinks": [
     { "label": "GitHub", "url": "https://github.com/IJNikhil/" },
