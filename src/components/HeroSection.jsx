@@ -1,23 +1,30 @@
 import { motion } from "framer-motion";
 import Container from "./ui/Container";
 import Navigation from "./Navigation";
+import Button from "./ui/Button"; // 💡 Imported the custom Button component
 import { scrollToSection } from "../utils/scrollUtils";
 import fallbackAvatar from "../assets/hero-avatar.png";
 
 export default function HeroSection({ data }) {
-  const { firstName, lastName, intro, avatar } = data;
+  // Destructure with robust fallbacks
+  const firstName = data?.firstName || "Nikhileshwar";
+  const lastName = data?.lastName || "Adam";
+  const intro = data?.intro || "A dedicated Full Stack Developer specializing in React, Node.js, and modern architectural patterns. I build robust, high-performance web applications from concept to deployment.";
+  const avatar = data?.avatar;
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center bg-gradient-to-b from-[#090909] via-[#0d0d12] to-[#111827] overflow-hidden"
+      // Added vertical padding based on Navigation height for content safety
+      className="relative min-h-[85vh] sm:min-h-screen flex items-center pt-28 pb-16 
+                 bg-gradient-to-b from-[#090909] via-[#0d0d12] to-[#111827] overflow-hidden"
     >
       {/* === Navigation === */}
       <Navigation />
 
-      {/* === Animated Grid Background === */}
+      {/* === Animated Grid Background === (ORIGINAL - NO CHANGES HERE) */}
       <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(90deg,_#00e0ff_1px,transparent_1px),linear-gradient(180deg,_#00e0ff_1px,transparent_1px)] bg-[size:40px_40px] animate-[moveGrid_25s_linear_infinite]" />
-      <style>
+      <style jsx="true">
         {`
           @keyframes moveGrid {
             from { background-position: 0 0, 0 0; }
@@ -33,21 +40,24 @@ export default function HeroSection({ data }) {
         `}
       </style>
 
-      {/* === Ambient Glows === */}
+      {/* === Ambient Glows === (ORIGINAL - NO CHANGES HERE) */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -left-20 w-[400px] h-[400px] bg-[var(--accent)]/10 blur-[120px] animate-pulse-slow"></div>
         <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[var(--accent-secondary)]/10 blur-[100px] animate-pulse-slow delay-500"></div>
       </div>
 
-      <Container className="relative z-10 flex flex-col-reverse sm:flex-row items-center justify-between gap-10 sm:gap-16 lg:gap-24 px-6">
-        {/* === Left — Text Section === */}
+      <Container className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-12 sm:gap-16 px-4 sm:px-6 lg:px-8">
+        
+        {/* === Left — Text Section (Takes up 60% of desktop space) === */}
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: -80 }} // Increased travel distance for smoother entry
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1 text-center sm:text-left"
+          transition={{ duration: 0.9, type: "spring", stiffness: 100 }}
+          className="lg:w-3/5 text-center lg:text-left" 
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
+          {/* Enhanced Typography: Larger, use font-serif, and stronger shadow */}
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-white mb-6 leading-tight font-serif 
+                       drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
             Hi, I’m{" "}
             <span className="text-[var(--accent)]">{firstName}</span>{" "}
             <span className="text-[var(--accent-secondary)]">{lastName}</span>
@@ -56,51 +66,54 @@ export default function HeroSection({ data }) {
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-gray-400 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mx-auto sm:mx-0 mb-8"
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="text-gray-400 text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-10 tracking-wide"
           >
             {intro}
           </motion.p>
 
-          {/* === Buttons === */}
+          {/* === Buttons (Now using the custom Button component) === */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start"
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
-            <button
+            <Button
+              variant="primary"
               onClick={() => scrollToSection("showcase")}
-              className="px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-semibold rounded-xl shadow-md hover:bg-[var(--accent-secondary)] hover:shadow-[0_0_15px_var(--accent)] transition-all duration-300"
+              // Added custom shadow for better visual depth
+              className="text-lg shadow-[0_4px_20px_var(--accent)/40]"
             >
               View Projects
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
               onClick={() => scrollToSection("contactSocial")}
-              className="px-6 py-3 border border-[var(--accent)] text-[var(--accent)] font-semibold rounded-xl hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all duration-300"
+              className="text-lg"
             >
               Contact Me
-            </button>
+            </Button>
           </motion.div>
         </motion.div>
 
-        {/* === Right — Avatar Section (from last file) === */}
+        {/* === Right — Avatar Section (40% of desktop space) === */}
         <motion.div
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex-1 flex justify-center sm:justify-end relative"
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.0, delay: 0.3, type: "spring", stiffness: 50 }}
+          className="lg:w-2/5 flex justify-center lg:justify-end relative mb-10 lg:mb-0"
         >
           {/* Subtle glowing halo behind avatar */}
-          <div className="absolute inset-0 flex justify-center sm:justify-end items-center">
-            <div className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full bg-[var(--accent)]/10 blur-3xl animate-pulse-slow" />
+          <div className="absolute inset-0 flex justify-center lg:justify-end items-center">
+            <div className="w-80 h-80 sm:w-96 sm:h-96 md:w-[450px] md:h-[450px] rounded-full bg-[var(--accent)]/10 blur-3xl animate-pulse-slow" />
           </div>
 
-          {/* Avatar Image */}
+          {/* Avatar Image: Enhanced shadow for high-contrast visibility */}
           <img
             src={avatar || fallbackAvatar}
             alt={`${firstName} ${lastName}`}
-            className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-[var(--accent)] shadow-[0_0_25px_var(--accent)] transition-transform duration-500 hover:scale-105"
+            className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover border-4 border-[var(--accent)] shadow-[0_0_35px_var(--accent)/60] transition-transform duration-500 hover:scale-[1.03]"
             onError={(e) => (e.target.src = fallbackAvatar)}
           />
         </motion.div>

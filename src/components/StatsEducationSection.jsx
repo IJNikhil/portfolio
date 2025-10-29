@@ -5,11 +5,13 @@ import GlassCard from "./ui/GlassCard";
 import Container from "./ui/Container";
 import SectionTitle from "./ui/SectionTitle";
 
+
 export default function StatsEducationSection({ data }) {
   const { stats, education } = data;
   const [githubRepos, setGithubRepos] = useState(5);
 
-  // Fetch GitHub repo count dynamically
+
+  // Fetch GitHub public repo count dynamically
   useEffect(() => {
     const fetchGithubData = async () => {
       try {
@@ -24,37 +26,45 @@ export default function StatsEducationSection({ data }) {
     fetchGithubData();
   }, []);
 
-  const updatedStats = stats.map((stat) =>
-    stat.label === "GitHub Repos"
-      ? { ...stat, value: githubRepos.toString() }
-      : stat
-  );
 
-  if (!updatedStats?.length || !education?.length) return null;
+  const updatedStats =
+    stats?.map((stat) =>
+      stat.label === "GitHub Repos"
+        ? { ...stat, value: githubRepos.toString() }
+        : stat
+    ) || [];
+
+
+  if (!updatedStats.length && !education?.length) return null;
+
 
   return (
     <section
       id="stats-education"
-      className="relative py-20 sm:py-24 bg-gradient-to-b from-[#0b0b0c] via-[#101012] to-[#0b0b0c] 
-                 text-gray-100 scroll-mt-16 overflow-hidden"
+      // Generous vertical padding for desktop view
+      className="relative pt-28 sm:pt-36 pb-24 bg-gradient-to-b from-bg via-card to-bg 
+                 text-gray-100 scroll-mt-20 overflow-hidden"
     >
       {/* Ambient background glows */}
-      <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[320px] h-[320px] bg-[var(--accent)]/10 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-[260px] h-[260px] bg-[var(--accent-secondary)]/10 blur-[100px] rounded-full"></div>
+      <div className="absolute inset-0 -z-10 pointer-events-none opacity-80">
+        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-accent/10 blur-[150px] rounded-full animate-subtle-pulse" />
+        <div className="absolute bottom-1/3 right-1/4 w-[300px] h-[300px] bg-accent-secondary/10 blur-[130px] rounded-full animate-subtle-pulse delay-1000" />
       </div>
 
+
       <Container className="relative z-10">
-        <div className="text-center mb-2">
+        {/* Section Title - Max width applied to center correctly */}
+        <div className="text-center mb-4 sm:mb-8 max-w-2xl mx-auto">
           <SectionTitle>
-            <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent to-accent-secondary bg-clip-text text-transparent">
               My Journey & Education
             </span>
           </SectionTitle>
         </div>
 
-        {/* ---------- Stats Section ---------- */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12 mb-16">
+
+        {/* Stats Grid - Max width applied for central alignment on large screens */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-16 mb-12 max-w-5xl mx-auto">
           {updatedStats.map((stat, i) => (
             <motion.div
               key={`stat-${i}`}
@@ -64,18 +74,17 @@ export default function StatsEducationSection({ data }) {
               viewport={{ once: true }}
             >
               <GlassCard
-                className="text-center p-6 sm:p-7 bg-[#16161a]/70 border border-gray-700/30 
-                           rounded-2xl backdrop-blur-md hover:-translate-y-1 
-                           hover:shadow-[0_0_25px_var(--accent)/25] transition-all duration-300"
+                className="text-center p-6 sm:p-7 bg-card/70 border border-gray-700/30 
+                           hover:shadow-[0_0_28px_var(--accent)/30] rounded-2xl transition-shadow duration-300"
               >
-                <div className="text-3xl sm:text-4xl font-bold text-[var(--accent)] mb-1 font-serif drop-shadow-[0_0_6px_var(--accent)/25]">
+                <div className="text-4xl sm:text-5xl font-bold text-accent mb-1 font-serif drop-shadow-[0_0_8px_var(--accent)/30]">
                   {stat.value}
                 </div>
                 <div className="text-base sm:text-lg font-semibold text-gray-200 tracking-wide">
                   {stat.label}
                 </div>
                 {stat.description && (
-                  <p className="text-gray-400 text-xs mt-2 leading-relaxed max-w-xs mx-auto">
+                  <p className="text-gray-400 text-xs sm:text-sm mt-2 leading-relaxed max-w-xs mx-auto">
                     {stat.description}
                   </p>
                 )}
@@ -84,51 +93,57 @@ export default function StatsEducationSection({ data }) {
           ))}
         </div>
 
-        {/* ---------- Stylish Divider ---------- */}
-        <div className="relative flex justify-center mb-12">
+
+        {/* Stylish Divider - Adjusted width for desktop balance */}
+        <div className="flex justify-center mb-10">
           <div
-            className="w-32 h-[3px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] 
-                       rounded-full opacity-80 shadow-[0_0_20px_var(--accent-secondary)/40] animate-pulse-slow"
-          ></div>
+            // 💥 DESKTOP OPTIMIZATION: Divider now scales up to w-1/3 of the container width on large screens
+            className="w-1/3 md:w-1/3 h-1 bg-gradient-to-r from-accent/0 via-accent to-accent/0 
+                       rounded-full opacity-80 shadow-[0_0_25px_var(--accent-secondary)/40] animate-pulse-slow"
+            aria-hidden="true"
+          />
         </div>
 
-        {/* ---------- Education Timeline ---------- */}
-        <div className="relative pl-8 sm:pl-12 space-y-8">
-          {/* Glowing vertical timeline line */}
-          <div
-            className="absolute left-4 top-0 bottom-0 w-[3px] 
-                       bg-gradient-to-b from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] 
-                       rounded-full opacity-70 shadow-[0_0_20px_var(--accent)/30]"
-          ></div>
 
-          {education.map((edu, i) => (
-            <motion.div
-              key={`edu-${i}`}
-              initial={{ opacity: 0, x: -25 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.15, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+        {/* Education Timeline Title */}
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-200 mb-12 text-center font-serif flex items-center justify-center gap-3">
+          <FaGraduationCap className="text-accent text-2xl sm:text-3xl" aria-hidden="true" />
+          Academic History
+        </h2>
 
-              <GlassCard
-                className="p-6 sm:p-7 bg-[#16161a]/70 border border-gray-700/30 rounded-2xl 
-                           backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_30px_var(--accent-secondary)/25] 
-                           transition-all duration-300"
+
+        {/* Education Grid - Max width applied for central alignment on large screens */}
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {education?.map((edu, i) => (
+              <motion.div
+                key={`edu-${i}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.6 }}
+                viewport={{ once: true }}
+                className="relative"
               >
-                <div className="flex items-center mb-3">
-                  <FaGraduationCap className="text-[var(--accent)] text-xl sm:text-2xl mr-3" />
-                  <h3 className="text-[var(--accent)] text-base sm:text-lg md:text-xl font-semibold font-serif relative">
-                    {edu.degree}
-                    <span className="absolute bottom-0 left-0 w-8 h-[1.5px] bg-[var(--accent)] rounded-md"></span>
-                  </h3>
-                </div>
-                <p className="text-gray-300 text-sm sm:text-base tracking-wide leading-relaxed">
-                  {edu.institution}
-                </p>
-              </GlassCard>
-            </motion.div>
-          ))}
+                <GlassCard
+                  className="p-6 sm:p-7 border-b-2 border-accent-secondary/50 
+                             hover:-translate-y-1 hover:shadow-[0_0_20px_var(--accent-secondary)/25] 
+                             rounded-xl transition-transform duration-300"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-accent text-lg sm:text-xl font-semibold font-serif">
+                      {edu.degree}
+                    </h3>
+                    <time className="text-sm font-medium text-gray-400 px-3 py-1 rounded-full border border-gray-700/50 select-none">
+                      {edu.year}
+                    </time>
+                  </div>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed tracking-wide">
+                    {edu.institution}
+                  </p>
+                </GlassCard>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </Container>
     </section>

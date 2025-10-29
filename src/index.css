@@ -3,20 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0a0a0a;
-  --text: #e0e0e0;
-  --accent: #007bff;
-  --accent-dark: #0056b3;
+  --bg: #030303; /* Deeper Black */
+  --text: #f0f0f0; /* Brighter Text */
+  --accent: #0099ff; /* Brighter, more modern blue */
+  --accent-dark: #0077cc;
   --accent-secondary: #00c4b4;
-  --card: #1e1e1e;
+  --card: #141414; /* Darker Card background */
+  --card-light: #1f1f1f; /* Used for glass and code */
 }
 
 html {
   scroll-behavior: smooth;
+  /* FIX for fixed header offset: Add padding equal to the height of your fixed navigation bar */
+  scroll-padding-top: 6rem; 
   background-color: var(--bg);
   color: var(--text);
   font-family: 'Lato', sans-serif;
-  font-size: clamp(14px, 3.5vw, 16px);
+  /* Font size controlled by base Tailwind utilities now */
 }
 
 body {
@@ -27,32 +30,23 @@ h1, h2, h3, h4 {
   font-family: 'Playfair Display', serif;
 }
 
-h1 {
-  font-size: clamp(1.8rem, 6vw, 2.5rem);
-}
+/* Base heading font sizes remain clean */
+h1 { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
+h3 { font-size: clamp(1.2rem, 4vw, 1.5rem); }
 
-h2 {
-  font-size: clamp(1.5rem, 5vw, 2rem);
-}
-
-h3 {
-  font-size: clamp(1.2rem, 4vw, 1.5rem);
-}
-
+/* Basic link styling is cleaner, animation handled in components */
 a {
   text-decoration: none;
   color: var(--accent);
+  transition: color 0.3s;
 }
 
 a:hover {
   color: var(--accent-dark);
 }
 
-button, a {
-  min-height: 44px;
-  min-width: 44px;
-}
-
+/* Standard Keyframes (kept, but many components now use Framer Motion) */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(30px) rotate(2deg); }
   to { opacity: 1; transform: translateY(0) rotate(0deg); }
@@ -68,49 +62,22 @@ button, a {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fadeInTooltip {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.prose-invert {
-  --tw-prose-body: #e0e0e0;
-  --tw-prose-headings: #ffffff;
-  --tw-prose-links: #007bff;
-}
-
-.category-underline {
-  transition: width 0.3s ease-in-out;
-}
-
-.category-underline:hover {
-  width: 100%;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f2937; /* dark gray */
+  background: #0d0d0d;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #4b5563; /* lighter gray */
+  background-color: var(--card-light);
   border-radius: 20px;
-  border: 2px solid #1f2937;
+  border: 2px solid #030303;
 }
 
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
-}
+/* Removed old custom pulse, using new one in config */
 .animate-pulse-slow {
   animation: pulse-slow 6s ease-in-out infinite;
 }

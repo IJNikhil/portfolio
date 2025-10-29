@@ -7,10 +7,11 @@ export default function Icon({ name, className = "" }) {
     linkedin: FaLinkedin,
     twitter: FaTwitter,
   };
-  const IconComponent = icons[name.toLowerCase()] || FaGithub;
+  // Default to FaGithub if name is not found
+  const IconComponent = icons[name.toLowerCase()] || FaGithub; 
   return (
-    <motion.div whileHover={{ scale: 1.2 }} transition={{ duration: 0.3 }}>
-      <IconComponent className={`text-3xl sm:text-4xl ${className}`} />
+    <motion.div whileHover={{ scale: 1.2, color: "var(--accent)" }} transition={{ duration: 0.3 }} className="cursor-pointer">
+      <IconComponent className={`text-3xl sm:text-4xl text-text hover:text-accent transition-colors ${className}`} />
     </motion.div>
   );
 }

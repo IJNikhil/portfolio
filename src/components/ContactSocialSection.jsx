@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Input from "./ui/Input";
 import Textarea from "./ui/Textarea";
@@ -6,24 +7,105 @@ import Container from "./ui/Container";
 import SectionTitle from "./ui/SectionTitle";
 import Icon from "./ui/Icon";
 
+// 🚨 IMPORTANT: REPLACE THIS with your actual deployed Google Apps Script Web App URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSoocITz8VhBE0ta3PAyv8bC34hgt20YYz9_AS2gqjHA-Xkadjms_jCymoxm3fu_YQCA/exec";
+
 export default function ContactSocialSection({ contactData, socialData }) {
   const email = contactData?.email || "nikhileshwar.adam@example.com";
   const intro =
-    contactData?.intro ||
-    "Let's connect to discuss innovative projects or opportunities!";
+    contactData?.intro || "Let's connect to discuss innovative projects or opportunities!";
   const messagePlaceholder =
     contactData?.messagePlaceholder || "Type your message here...";
+
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submissionStatus, setSubmissionStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Simple validation
+    if (!form.name || !form.email || !form.message) {
+      setSubmissionStatus("error");
+      setTimeout(() => setSubmissionStatus(null), 3000);
+      return;
+    }
+
+    setSubmissionStatus("loading");
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const text = await response.text();
+      const result = JSON.parse(text);
+
+      if (result.status === "success") {
+        setSubmissionStatus("success");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        setSubmissionStatus("error");
+        console.error("Script error:", result.message);
+      }
+    } catch (error) {
+      setSubmissionStatus("error");
+      console.error("Fetch or parse error:", error);
+    }
+
+    // Reset status after timeout unless error (which requires user action)
+    if (submissionStatus !== "error") {
+      setTimeout(() => setSubmissionStatus(null), 4000);
+    }
+  };
+
+  const getButtonText = () => {
+    switch (submissionStatus) {
+      case "loading":
+        return "Sending...";
+      case "success":
+        return "Message Sent! 🎉";
+      case "error":
+        return "Failed to Send (Retry)";
+      default:
+        return "Send Message";
+    }
+  };
+
+  const getStatusMessage = () => {
+    switch (submissionStatus) {
+      case "success":
+        return (
+          <p className="text-green-400 font-semibold text-center mt-4">
+            Thank you! Your message has been received.
+          </p>
+        );
+      case "error":
+        return (
+          <p className="text-red-400 font-semibold text-center mt-4">
+            Failed to send message. Please try again or email directly.
+          </p>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <section
       id="contactSocial"
-      className="relative py-20 sm:py-24 bg-gradient-to-b from-[#0b0b0c] via-[#101012] to-[#0b0b0c] 
+      className="relative py-20 sm:py-24 bg-gradient-to-b from-[#0b0b0c] via-[#101012] to-[#0b0b0c]
                  text-gray-100 scroll-mt-16 overflow-hidden"
     >
       {/* Ambient background glow */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/3 w-[320px] h-[320px] bg-[var(--accent)]/10 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-[280px] h-[280px] bg-[var(--accent-secondary)]/10 blur-[100px] rounded-full"></div>
+        <div className="absolute top-1/4 left-1/3 w-[320px] h-[320px] bg-[var(--accent)]/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-1/4 right-1/3 w-[280px] h-[280px] bg-[var(--accent-secondary)]/10 blur-[100px] rounded-full" />
       </div>
 
       <Container>
@@ -35,7 +117,7 @@ export default function ContactSocialSection({ contactData, socialData }) {
           </SectionTitle>
         </div>
 
-        {/* Intro Text */}
+        {/* Intro text */}
         <motion.p
           className="text-gray-400 text-center max-w-xl mx-auto mt-2 mb-10 text-sm sm:text-base leading-relaxed"
           initial={{ opacity: 0, y: 10 }}
@@ -46,9 +128,9 @@ export default function ContactSocialSection({ contactData, socialData }) {
           {intro}
         </motion.p>
 
-        {/* Contact Form */}
+        {/* Contact form */}
         <motion.div
-          className="max-w-2xl mx-auto bg-[#16161a]/70 backdrop-blur-md border border-gray-800/50 
+          className="max-w-2xl mx-auto bg-[#16161a]/70 backdrop-blur-md border border-gray-800/50
                      rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.4)] p-6 sm:p-8
                      hover:shadow-[0_0_35px_var(--accent)/20] transition-all duration-500"
           initial={{ opacity: 0, y: 30 }}
@@ -56,24 +138,30 @@ export default function ContactSocialSection({ contactData, socialData }) {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             <div className="flex flex-col sm:flex-row gap-4">
               <Input
                 name="name"
                 placeholder="Your Name"
                 required
-                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50 
-                focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40 
-                placeholder-gray-500 rounded-lg transition-all duration-300"
+                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
+                           focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
+                           placeholder-gray-500 rounded-lg transition-all duration-300"
+                disabled={submissionStatus === "loading" || submissionStatus === "success"}
+                value={form.name}
+                onChange={handleChange}
               />
               <Input
                 type="email"
                 name="email"
                 placeholder="Your Email"
                 required
-                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50 
-                focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40 
-                placeholder-gray-500 rounded-lg transition-all duration-300"
+                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
+                           focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
+                           placeholder-gray-500 rounded-lg transition-all duration-300"
+                disabled={submissionStatus === "loading" || submissionStatus === "success"}
+                value={form.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -82,26 +170,31 @@ export default function ContactSocialSection({ contactData, socialData }) {
               placeholder={messagePlaceholder}
               rows={5}
               required
-              className="bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50 
-              focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40 
-              placeholder-gray-500 rounded-lg transition-all duration-300"
+              className="bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
+                         focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
+                         placeholder-gray-500 rounded-lg transition-all duration-300"
+              disabled={submissionStatus === "loading" || submissionStatus === "success"}
+              value={form.message}
+              onChange={handleChange}
             />
 
             <div className="text-center pt-2">
               <Button
-                type="button"
+                type="submit"
                 variant="primary"
-                onClick={() => (window.location.href = `mailto:${email}`)}
+                disabled={submissionStatus === "loading" || submissionStatus === "success"}
                 className="px-8 py-3 text-base font-semibold rounded-xl bg-[var(--accent)]/90 text-bg 
-                hover:bg-[var(--accent)] hover:scale-[1.03] transition-all duration-300 
-                shadow-[0_0_20px_var(--accent)/25] hover:shadow-[0_0_35px_var(--accent)/40]"
+                           hover:bg-[var(--accent)] hover:scale-[1.03] transition-all duration-300 
+                           shadow-[0_0_20px_var(--accent)/25] hover:shadow-[0_0_35px_var(--accent)/40]"
               >
-                Send Message
+                {getButtonText()}
               </Button>
             </div>
+
+            {getStatusMessage()}
           </form>
 
-          {/* Email Display */}
+          {/* Email display */}
           <div className="text-center mt-6 text-sm text-gray-400">
             or email me directly at{" "}
             <a
@@ -122,12 +215,12 @@ export default function ContactSocialSection({ contactData, socialData }) {
           viewport={{ once: true }}
         >
           <div
-            className="w-32 h-[3px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)] 
+            className="w-32 h-[3px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)]
                        rounded-full opacity-80 shadow-[0_0_20px_var(--accent-secondary)/40] animate-pulse-slow"
           ></div>
         </motion.div>
 
-        {/* Social Links */}
+        {/* Social links */}
         {socialData && socialData.length > 0 && (
           <motion.div
             className="flex flex-wrap justify-center gap-8 sm:gap-10"
@@ -149,12 +242,9 @@ export default function ContactSocialSection({ contactData, socialData }) {
                   hidden: { opacity: 0, y: 10 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                whileHover={{
-                  scale: 1.15,
-                  textShadow: "0 0 10px var(--accent)",
-                }}
+                whileHover={{ scale: 1.15, textShadow: "0 0 10px var(--accent)" }}
                 transition={{ type: "spring", stiffness: 300, damping: 16 }}
-                className="flex flex-col items-center text-gray-300 hover:text-[var(--accent)] 
+                className="flex flex-col items-center text-gray-300 hover:text-[var(--accent)]
                            transition-all duration-300 group"
                 aria-label={`Visit ${item.label}`}
               >
