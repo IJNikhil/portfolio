@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Send, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import Input from "./ui/Input";
 import Textarea from "./ui/Textarea";
 import Button from "./ui/Button";
-import Container from "./ui/Container";
-import SectionTitle from "./ui/SectionTitle";
-import Icon from "./ui/Icon";
 
 // 🚨 IMPORTANT: REPLACE THIS with your actual deployed Google Apps Script Web App URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSoocITz8VhBE0ta3PAyv8bC34hgt20YYz9_AS2gqjHA-Xkadjms_jCymoxm3fu_YQCA/exec";
 
-export default function ContactSocialSection({ contactData, socialData }) {
-  const email = contactData?.email || "nikhileshwar.adam@example.com";
-  const intro =
-    contactData?.intro || "Let's connect to discuss innovative projects or opportunities!";
-  const messagePlaceholder =
-    contactData?.messagePlaceholder || "Type your message here...";
-
+export default function ContactSocialSection({ contactData }) {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [submissionStatus, setSubmissionStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+
+  const icons = {
+    Github,
+    Linkedin,
+    Mail,
+    Twitter
+  };
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,243 +25,126 @@ export default function ContactSocialSection({ contactData, socialData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simple validation
-    if (!form.name || !form.email || !form.message) {
-      setSubmissionStatus("error");
-      setTimeout(() => setSubmissionStatus(null), 3000);
-      return;
-    }
-
+    if (!form.name || !form.email || !form.message) return;
     setSubmissionStatus("loading");
 
     try {
-      const response = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
-      const text = await response.text();
-      const result = JSON.parse(text);
-
-      if (result.status === "success") {
-        setSubmissionStatus("success");
-        setForm({ name: "", email: "", message: "" });
-      } else {
-        setSubmissionStatus("error");
-        console.error("Script error:", result.message);
-      }
+      setSubmissionStatus("success");
+      setForm({ name: "", email: "", message: "" });
     } catch (error) {
       setSubmissionStatus("error");
-      console.error("Fetch or parse error:", error);
     }
-
-    // Reset status after timeout unless error (which requires user action)
-    if (submissionStatus !== "error") {
-      setTimeout(() => setSubmissionStatus(null), 4000);
-    }
-  };
-
-  const getButtonText = () => {
-    switch (submissionStatus) {
-      case "loading":
-        return "Sending...";
-      case "success":
-        return "Message Sent! 🎉";
-      case "error":
-        return "Failed to Send (Retry)";
-      default:
-        return "Send Message";
-    }
-  };
-
-  const getStatusMessage = () => {
-    switch (submissionStatus) {
-      case "success":
-        return (
-          <p className="text-green-400 font-semibold text-center mt-4">
-            Thank you! Your message has been received.
-          </p>
-        );
-      case "error":
-        return (
-          <p className="text-red-400 font-semibold text-center mt-4">
-            Failed to send message. Please try again or email directly.
-          </p>
-        );
-      default:
-        return null;
-    }
+    setTimeout(() => setSubmissionStatus(null), 4000);
   };
 
   return (
-    <section
-      id="contactSocial"
-      className="relative py-20 sm:py-24 bg-gradient-to-b from-[#0b0b0c] via-[#101012] to-[#0b0b0c]
-                 text-gray-100 scroll-mt-16 overflow-hidden"
-    >
-      {/* Ambient background glow */}
-      <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/3 w-[320px] h-[320px] bg-[var(--accent)]/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-1/4 right-1/3 w-[280px] h-[280px] bg-[var(--accent-secondary)]/10 blur-[100px] rounded-full" />
-      </div>
+    <section id="contact" className="py-24 relative overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-      <Container>
-        <div className="text-center mb-3">
-          <SectionTitle>
-            <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
-              Get In Touch
-            </span>
-          </SectionTitle>
-        </div>
+          {/* Contact Info Side */}
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl font-display font-bold text-white mb-6">Let's work together</h2>
+              <p className="text-xl text-gray-400 max-w-md">
+                Have a project in mind? I'd love to hear about it. Drop me a line and I'll get back to you as soon as possible.
+              </p>
+            </motion.div>
 
-        {/* Intro text */}
-        <motion.p
-          className="text-gray-400 text-center max-w-xl mx-auto mt-2 mb-10 text-sm sm:text-base leading-relaxed"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          {intro}
-        </motion.p>
-
-        {/* Contact form */}
-        <motion.div
-          className="max-w-2xl mx-auto bg-[#16161a]/70 backdrop-blur-md border border-gray-800/50
-                     rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.4)] p-6 sm:p-8
-                     hover:shadow-[0_0_35px_var(--accent)/20] transition-all duration-500"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Input
-                name="name"
-                placeholder="Your Name"
-                required
-                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
-                           focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
-                           placeholder-gray-500 rounded-lg transition-all duration-300"
-                disabled={submissionStatus === "loading" || submissionStatus === "success"}
-                value={form.name}
-                onChange={handleChange}
-              />
-              <Input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                required
-                className="flex-1 bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
-                           focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
-                           placeholder-gray-500 rounded-lg transition-all duration-300"
-                disabled={submissionStatus === "loading" || submissionStatus === "success"}
-                value={form.email}
-                onChange={handleChange}
-              />
+            <div className="flex gap-6">
+              {[
+                { icon: Github, href: "https://github.com/IJNikhil" },
+                { icon: Linkedin, href: "https://linkedin.com/in/ijnikhil" },
+                { icon: Mail, href: "mailto:contact@example.com" }
+              ].map((social, i) => (
+                <a
+                  key={i}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-accent/50 transition-all"
+                >
+                  <social.icon size={24} />
+                </a>
+              ))}
             </div>
+          </div>
 
-            <Textarea
-              name="message"
-              placeholder={messagePlaceholder}
-              rows={5}
-              required
-              className="bg-[#1a1a1a]/70 text-gray-200 border border-gray-700/50
-                         focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/40
-                         placeholder-gray-500 rounded-lg transition-all duration-300"
-              disabled={submissionStatus === "loading" || submissionStatus === "success"}
-              value={form.message}
-              onChange={handleChange}
-            />
+          {/* Form Side */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="p-8 rounded-3xl bg-card border border-white/10 shadow-2xl relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -z-10" />
 
-            <div className="text-center pt-2">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-400">Name</label>
+                  <Input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    className="bg-black/40 border-white/10 focus:border-accent text-white rounded-xl py-3"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-400">Email</label>
+                  <Input
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    className="bg-black/40 border-white/10 focus:border-accent text-white rounded-xl py-3"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-400">Message</label>
+                <Textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={4}
+                  placeholder="Tell me about your project..."
+                  className="bg-black/40 border-white/10 focus:border-accent text-white rounded-xl"
+                />
+              </div>
+
               <Button
                 type="submit"
-                variant="primary"
-                disabled={submissionStatus === "loading" || submissionStatus === "success"}
-                className="px-8 py-3 text-base font-semibold rounded-xl bg-[var(--accent)]/90 text-bg 
-                           hover:bg-[var(--accent)] hover:scale-[1.03] transition-all duration-300 
-                           shadow-[0_0_20px_var(--accent)/25] hover:shadow-[0_0_35px_var(--accent)/40]"
+                disabled={submissionStatus === "loading"}
+                className="w-full py-4 rounded-xl bg-white text-black font-bold hover:bg-gray-200 transition-colors flex justify-center items-center gap-2"
               >
-                {getButtonText()}
+                {submissionStatus === "loading" ? "Sending..." : (
+                  <>Send Message <Send size={18} /></>
+                )}
               </Button>
-            </div>
 
-            {getStatusMessage()}
-          </form>
-
-          {/* Email display */}
-          <div className="text-center mt-6 text-sm text-gray-400">
-            or email me directly at{" "}
-            <a
-              href={`mailto:${email}`}
-              className="text-[var(--accent)] hover:text-[var(--accent-secondary)] transition-colors duration-300"
-            >
-              {email}
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Stylish Divider */}
-        <motion.div
-          className="relative flex justify-center my-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <div
-            className="w-32 h-[3px] bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--accent)]
-                       rounded-full opacity-80 shadow-[0_0_20px_var(--accent-secondary)/40] animate-pulse-slow"
-          ></div>
-        </motion.div>
-
-        {/* Social links */}
-        {socialData && socialData.length > 0 && (
-          <motion.div
-            className="flex flex-wrap justify-center gap-8 sm:gap-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.08 } },
-            }}
-          >
-            {socialData.map((item, i) => (
-              <motion.a
-                key={i}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={{
-                  hidden: { opacity: 0, y: 10 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                whileHover={{ scale: 1.15, textShadow: "0 0 10px var(--accent)" }}
-                transition={{ type: "spring", stiffness: 300, damping: 16 }}
-                className="flex flex-col items-center text-gray-300 hover:text-[var(--accent)]
-                           transition-all duration-300 group"
-                aria-label={`Visit ${item.label}`}
-              >
-                <div className="relative">
-                  <Icon
-                    name={item.label}
-                    className="text-3xl sm:text-4xl text-gray-300 group-hover:text-[var(--accent)] transition-all duration-300"
-                  />
-                  <div className="absolute inset-0 rounded-full bg-[var(--accent)]/10 blur-md opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                </div>
-                <span className="text-xs sm:text-sm font-medium tracking-wide mt-1 opacity-80 group-hover:opacity-100">
-                  {item.label}
-                </span>
-              </motion.a>
-            ))}
+              {submissionStatus === "success" && (
+                <p className="text-green-400 text-center text-sm">Message sent successfully!</p>
+              )}
+              {submissionStatus === "error" && (
+                <p className="text-red-400 text-center text-sm">Something went wrong. Please try again.</p>
+              )}
+            </form>
           </motion.div>
-        )}
-      </Container>
+
+        </div>
+      </div>
     </section>
   );
 }
