@@ -18,7 +18,7 @@ export const smoothScrollTo = (targetPosition, duration = 1000) => {
   requestAnimationFrame(animation);
 };
 
-export const scrollToSection = (id, offset = 60, duration = 1000) => {
+export const scrollToSection = (id, offset = 100, duration = 1000) => {
   try {
     const element = document.getElementById(id);
     if (!element) {

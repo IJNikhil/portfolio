@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, Code, Database, Globe } from "lucide-react";
 
 export default function StatsEducationSection({ data }) {
   const { stats, education } = data;
   const [githubRepos, setGithubRepos] = useState(5);
 
-  // Fetch GitHub public repo count dynamically
   useEffect(() => {
     const fetchGithubData = async () => {
       try {
@@ -21,72 +20,85 @@ export default function StatsEducationSection({ data }) {
     fetchGithubData();
   }, []);
 
-  const updatedStats =
-    stats?.map((stat) =>
-      stat.label === "GitHub Repos"
-        ? { ...stat, value: githubRepos.toString() }
-        : stat
-    ) || [];
+  const updatedStats = stats?.map((stat) =>
+    stat.label === "GitHub Repos" ? { ...stat, value: githubRepos.toString() } : stat
+  ) || [];
 
   if (!updatedStats.length && !education?.length) return null;
 
   return (
-    <section id="stats-education" className="relative py-32 bg-bg text-gray-100 scroll-mt-20 overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="stats-education" className="py-32 relative">
+      <div className="container mx-auto px-6">
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 border-y border-white/10 py-12">
-          {updatedStats.map((stat, i) => (
-            <motion.div
-              key={`stat-${i}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <div className="text-4xl md:text-5xl font-bold font-display text-white mb-2">
-                {stat.value}
-              </div>
-              <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <span className="text-accent font-medium tracking-wider uppercase text-sm">My Journey</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-display mt-4">
+            Stats & <span className="text-gradient">Education</span>
+          </h2>
+        </motion.div>
 
-        {/* Education Timeline */}
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 mb-12">
-            <div className="p-3 bg-accent/10 rounded-xl text-accent">
-              <GraduationCap size={24} />
-            </div>
-            <h2 className="text-3xl font-display font-bold text-white">Education</h2>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-          <div className="space-y-12 border-l border-white/10 pl-8 md:pl-12 relative">
-            {education?.map((edu, i) => (
+          {/* Stats Grid - Using Card Style */}
+          <div className="grid grid-cols-2 gap-4">
+            {updatedStats.map((stat, i) => (
               <motion.div
-                key={`edu-${i}`}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={`stat-${i}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="relative"
+                className="group relative p-6 rounded-3xl bg-card border border-white/5 hover:border-white/10 transition-colors flex flex-col justify-center items-center text-center overflow-hidden h-[200px]"
               >
-                <div className="absolute -left-[45px] md:-left-[61px] top-2 w-6 h-6 rounded-full bg-accent/20 border-2 border-accent" />
-
-                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
-                  <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
-                  <span className="text-sm font-mono text-accent/80">{edu.year}</span>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="text-4xl md:text-5xl font-bold font-display text-white mb-2 relative z-10">
+                  {stat.value}
                 </div>
-                <p className="text-lg text-gray-400 mb-2">{edu.institution}</p>
-                <p className="text-gray-500 text-sm leading-relaxed max-w-2xl">
-                  {edu.description || "Focused on core computer science principles, software engineering, and full-stack development methodologies."}
-                </p>
+                <div className="text-xs font-medium text-gray-400 uppercase tracking-widest relative z-10">
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Education - Using Card Style */}
+          <div className="space-y-4">
+            {education?.map((edu, i) => (
+              <motion.div
+                key={`edu-${i}`}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="group relative p-8 rounded-3xl bg-card border border-white/5 hover:border-white/10 transition-colors overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <GraduationCap className="text-accent" size={24} />
+                      <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
+                    </div>
+                    <p className="text-lg text-gray-400 mb-3">{edu.institution}</p>
+                    <p className="text-sm text-gray-500 leading-relaxed">
+                      {edu.description || "Specialized in full-stack development, algorithms, and software architecture."}
+                    </p>
+                  </div>
+                  <span className="px-4 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-mono text-gray-300 whitespace-nowrap">
+                    {edu.year}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </div>
     </section>
