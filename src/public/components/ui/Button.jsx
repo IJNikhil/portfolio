@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+
 import { motion } from "framer-motion";
 import { cn } from "../../../shared/utils/cn";
 
@@ -25,7 +25,8 @@ export default function Button({ variant = "primary", isLoading, children, onCli
       whileHover={{ scale: 1.02 }} // Subtle scale for interactive feel
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={cn(baseClasses, variantClasses, className)}
+      disabled={isLoading || props.disabled}
+      className={cn(baseClasses, variantClasses, className, (isLoading || props.disabled) && "opacity-70 cursor-not-allowed")}
       {...props}
     >
       {children}
