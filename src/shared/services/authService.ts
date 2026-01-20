@@ -17,7 +17,7 @@ class AuthService {
      * Authenticate with the backend
      */
     public async login(password: string): Promise<{ success: boolean; message?: string; token?: string }> {
-        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || (process.env.VITE_GOOGLE_SCRIPT_URL as string);
         if (!SCRIPT_URL) return { success: false, message: "Script URL not configured" };
 
         try {
