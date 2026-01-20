@@ -1,4 +1,4 @@
-import React from "react";
+import { memo } from "react";
 import clsx from "clsx";
 import { Loader2 } from "lucide-react";
 
@@ -8,7 +8,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isLoading?: boolean;
 }
 
-export default function Button({
+const Button = memo(({
     className,
     variant = "primary",
     size = "md",
@@ -16,7 +16,7 @@ export default function Button({
     children,
     disabled,
     ...props
-}: ButtonProps) {
+}: ButtonProps) => {
     const variants = {
         primary: "bg-primary text-white hover:bg-primary-hover shadow-glow border-transparent",
         secondary: "bg-white text-text-main border border-border hover:bg-gray-50 hover:border-gray-300 shadow-sm",
@@ -45,4 +45,8 @@ export default function Button({
             {children}
         </button>
     );
-}
+});
+
+Button.displayName = 'Button';
+
+export default Button;

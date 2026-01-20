@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { scrollToSection } from "../../shared/utils/scrollUtils";
 import { TypewriterText } from "../../shared/components/TypewriterText";
@@ -17,7 +18,7 @@ interface HeroProps {
     };
 }
 
-export default function HeroSection({ data }: HeroProps) {
+const HeroSection = memo(({ data }: HeroProps) => {
     const tagline = data?.tagline;
     const bio = data?.bio;
     const secondaryBio = data?.secondaryBio;
@@ -87,6 +88,8 @@ export default function HeroSection({ data }: HeroProps) {
                             <img
                                 src={resolveDriveImage(data.avatar)}
                                 alt="Profile"
+                                loading="lazy"
+                                decoding="async"
                                 className="size-full rounded-full object-cover border-4 border-[#0d0d12]"
                             />
                         </div>
@@ -153,4 +156,8 @@ export default function HeroSection({ data }: HeroProps) {
             </div>
         </section>
     );
-}
+});
+
+HeroSection.displayName = 'HeroSection';
+
+export default HeroSection;

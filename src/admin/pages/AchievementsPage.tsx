@@ -1,24 +1,41 @@
-import React, { useState, useMemo } from "react";
+import { memo } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useMemo } from "react";
 import { usePortfolio, Achievement } from "../../shared/context/PortfolioContext";
+import { achievementSchema } from "../../shared/utils/validationSchemas";
 import { ImageUploader } from "../components/ui/ImageUploader";
 import { Input, TextArea, Select, TitleInput } from "../components/ui/Inputs";
+import type { z } from "zod";
+
+type AchievementFormData = z.infer<typeof achievementSchema>;
 
 export default function AchievementsPage() {
     const { achievements, addAchievement, updateAchievement, deleteAchievement } = usePortfolio();
 
     const [selectedAch, setSelectedAch] = useState<Achievement | null>(null);
     const [isCreating, setIsCreating] = useState(false);
-
-    // Search & Filter State
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState("All");
 
     const categories = ["All", "Certificate", "Award", "Hackathon", "Achievement", "Conference", "Other"];
     const formCategories = categories.filter(c => c !== "All");
 
-    const [formData, setFormData] = useState<Partial<Achievement>>({
-        title: "", description: "", date: "", category: "Certificate", image: "", proofUrl: "", isVisible: true
+    // React Hook Form with Zod validation
+    const { register, handleSubmit: handleFormSubmit, formState: { errors, isSubmitting }, reset, setValue, watch } = useForm<AchievementFormData>({
+        resolver: zodResolver(achievementSchema),
+        defaultValues: {
+            title: "",
+            description: "",
+            date: new Date().getFullYear().toString(),
+            category: "Certificate",
+            image: "",
+            proofUrl: "",
+            isVisible: true
+        }
     });
+
+    const formData = watch();
 
     // Filtering Logic
     const filteredAchievements = useMemo(() => {
@@ -42,24 +59,31 @@ export default function AchievementsPage() {
     const handleSelect = (ach: Achievement) => {
         setIsCreating(false);
         setSelectedAch(ach);
-        setFormData({ ...ach });
+        reset(ach);
     };
 
     const handleCreateNew = () => {
         setSelectedAch(null);
         setIsCreating(true);
-        setFormData({ title: "", description: "", date: new Date().getFullYear().toString(), category: "Certificate", image: "", proofUrl: "", isVisible: true });
+        reset({
+            title: "",
+            description: "",
+            date: new Date().getFullYear().toString(),
+            category: "Certificate",
+            image: "",
+            proofUrl: "",
+            isVisible: true
+        });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const onSubmit = async (data: AchievementFormData) => {
         try {
             if (isCreating) {
-                await addAchievement(formData as Achievement);
+                await addAchievement(data as Achievement);
                 setIsCreating(false);
-                setFormData({ title: "", description: "", date: "", category: "Certificate", image: "", proofUrl: "", isVisible: true });
+                reset();
             } else if (selectedAch) {
-                await updateAchievement(selectedAch.id, formData);
+                await updateAchievement(selectedAch.id, data);
             }
         } catch (error) {
             console.error("Failed to save achievement", error);
@@ -77,7 +101,6 @@ export default function AchievementsPage() {
     return (
         <div className="flex h-[calc(100vh-4rem)] md:h-[calc(100vh-8rem)] gap-0 bg-white md:border border-[#DADCE0] md:rounded-lg shadow-sm overflow-hidden relative">
             {/* Left Sidebar: List & filters */}
-            {/* Logic: Hidden on mobile IF we have a selected achievement or creating new */}
             <div className={`w-full md:w-[350px] flex flex-col border-r border-[#DADCE0] bg-gray-50 ${(selectedAch || isCreating) ? "hidden md:flex" : "flex"
                 }`}>
                 {/* Search Header */}
@@ -125,34 +148,12 @@ export default function AchievementsPage() {
                             <div className="p-8 text-center text-gray-500 text-xs italic">No items match your filter.</div>
                         ) : (
                             filteredAchievements.map(ach => (
-                                <div
+                                <AchievementListItem
                                     key={ach.id}
-                                    onClick={() => handleSelect(ach)}
-                                    className={`mx-4 mb-3 p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between group relative overflow-hidden ${selectedAch?.id === ach.id
-                                        ? 'bg-[#E8F0FE] border-[#1A73E8] shadow-sm'
-                                        : 'bg-white border-[#DADCE0] hover:border-[#1A73E8] hover:shadow-md'
-                                        }`}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className={`size-10 rounded-lg flex items-center justify-center shrink-0 ${selectedAch?.id === ach.id ? 'bg-white' : 'bg-gray-50 border border-gray-100'}`}>
-                                            <span className={`material-symbols-outlined text-xl ${ach.category === 'Certificate' ? 'text-[#1A73E8]' : 'text-[#F9AB00]'}`}>
-                                                {ach.category === 'Certificate' ? 'verified' : 'emoji_events'}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <h4 className={`font-medium text-base mb-0.5 ${selectedAch?.id === ach.id ? 'text-[#1967D2]' : 'text-[#202124]'}`}>
-                                                {ach.title}
-                                            </h4>
-                                            <p className="text-xs text-[#5F6368] flex items-center gap-1">
-                                                <span>{ach.category}</span>
-                                                <span>•</span>
-                                                <span>{ach.date}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className={`absolute top-3 right-3 size-2 rounded-full ${ach.isVisible ? 'bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.4)]' : 'bg-gray-300'}`} />
-                                </div>
+                                    achievement={ach}
+                                    isSelected={selectedAch?.id === ach.id}
+                                    onSelect={() => handleSelect(ach)}
+                                />
                             ))
                         )}
                     </div>
@@ -168,11 +169,10 @@ export default function AchievementsPage() {
             </div>
 
             {/* Right: Editor */}
-            {/* Logic: Hidden on mobile IF nothing selected */}
             <div className={`flex-1 flex flex-col bg-white overflow-y-auto ${(!selectedAch && !isCreating) ? "hidden md:flex" : "flex fixed top-16 left-0 right-0 bottom-0 z-30 md:static md:z-auto"
                 }`}>
                 {(selectedAch || isCreating) ? (
-                    <form onSubmit={handleSubmit} className="flex flex-col h-full bg-white">
+                    <form onSubmit={handleFormSubmit(onSubmit)} className="flex flex-col h-full bg-white">
                         <div className="h-16 border-b border-[#DADCE0] flex items-center justify-between px-4 md:px-8 bg-white shrink-0 sticky top-0 z-10">
                             <div className="flex items-center gap-2">
                                 {/* Mobile Back Button */}
@@ -208,9 +208,10 @@ export default function AchievementsPage() {
                                 )}
                                 <button
                                     type="submit"
-                                    className={`bg-[#1A73E8] text-white px-6 py-2 rounded shadow-sm text-sm font-medium hover:shadow hover:bg-[#1557B0] transition-all`}
+                                    disabled={isSubmitting}
+                                    className={`bg-[#1A73E8] text-white px-6 py-2 rounded shadow-sm text-sm font-medium hover:shadow hover:bg-[#1557B0] transition-all disabled:opacity-50`}
                                 >
-                                    Save Changes
+                                    {isSubmitting ? "Saving..." : "Save Changes"}
                                 </button>
                             </div>
                         </div>
@@ -219,30 +220,29 @@ export default function AchievementsPage() {
                             <div className="space-y-4">
                                 <label className="block text-sm font-medium text-[#3C4043]">Achievement Title</label>
                                 <TitleInput
-                                    value={formData.title}
-                                    onChange={e => setFormData({ ...formData, title: e.target.value })}
+                                    {...register("title")}
                                     placeholder="e.g. AWS Certified Solutions Architect"
-                                    required
                                     autoFocus
                                 />
+                                {errors.title && <p className="text-xs text-red-600 mt-1">{errors.title.message}</p>}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                                 <div>
                                     <Select
                                         label="Category"
-                                        value={formData.category}
-                                        onChange={e => setFormData({ ...formData, category: e.target.value as any })}
+                                        {...register("category")}
                                         options={formCategories.map(c => ({ value: c, label: c }))}
                                     />
+                                    {errors.category && <p className="text-xs text-red-600 mt-1">{errors.category.message}</p>}
                                 </div>
                                 <div>
                                     <Input
                                         label="Date / Year"
-                                        value={formData.date}
-                                        onChange={e => setFormData({ ...formData, date: e.target.value })}
+                                        {...register("date")}
                                         placeholder="e.g. Dec 2024"
                                     />
+                                    {errors.date && <p className="text-xs text-red-600 mt-1">{errors.date.message}</p>}
                                 </div>
                             </div>
 
@@ -252,11 +252,11 @@ export default function AchievementsPage() {
                                     Details
                                 </h4>
                                 <TextArea
-                                    value={formData.description}
-                                    onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                    {...register("description")}
                                     placeholder="Describe why this is significant..."
                                     className="min-h-[100px]"
                                 />
+                                {errors.description && <p className="text-xs text-red-600 mt-1">{errors.description.message}</p>}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -264,21 +264,20 @@ export default function AchievementsPage() {
                                     <Input
                                         label="Proof / Credential Link"
                                         icon="link"
-                                        value={formData.proofUrl || ""}
-                                        onChange={e => setFormData({ ...formData, proofUrl: e.target.value })}
+                                        {...register("proofUrl")}
                                         placeholder="https://credly.com/..."
                                     />
+                                    {errors.proofUrl && <p className="text-xs text-red-600 mt-1">{errors.proofUrl.message}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-[#5F6368] uppercase mb-2">Proof Image / Badge</label>
-
-
                                     <ImageUploader
                                         label="Proof Image / Badge"
                                         value={formData.image || ""}
-                                        onChange={(url: string) => setFormData(prev => ({ ...prev, image: url }))}
+                                        onChange={(url: string) => setValue("image", url)}
                                         folder="Achievements"
                                     />
+                                    {errors.image && <p className="text-xs text-red-600 mt-1">{errors.image.message}</p>}
                                 </div>
                             </div>
 
@@ -288,8 +287,7 @@ export default function AchievementsPage() {
                                     <input
                                         type="checkbox"
                                         className="sr-only peer"
-                                        checked={formData.isVisible}
-                                        onChange={e => setFormData({ ...formData, isVisible: e.target.checked })}
+                                        {...register("isVisible")}
                                     />
                                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1A73E8]"></div>
                                 </label>
@@ -299,7 +297,7 @@ export default function AchievementsPage() {
                                 </div>
                             </div>
 
-                            {/* Mobile Delete Button (Standard Position) */}
+                            {/* Mobile Delete Button */}
                             {!isCreating && (
                                 <div className="md:hidden mt-4 pt-6 border-t border-[#DADCE0]">
                                     <button
@@ -342,3 +340,40 @@ export default function AchievementsPage() {
         </div>
     );
 }
+
+// Memoized list item component
+const AchievementListItem = memo(({ achievement, isSelected, onSelect }: {
+    achievement: Achievement;
+    isSelected: boolean;
+    onSelect: () => void;
+}) => (
+    <div
+        onClick={onSelect}
+        className={`mx-4 mb-3 p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between group relative overflow-hidden ${isSelected
+            ? 'bg-[#E8F0FE] border-[#1A73E8] shadow-sm'
+            : 'bg-white border-[#DADCE0] hover:border-[#1A73E8] hover:shadow-md'
+            }`}
+    >
+        <div className="flex items-center gap-3">
+            <div className={`size-10 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? 'bg-white' : 'bg-gray-50 border border-gray-100'}`}>
+                <span className={`material-symbols-outlined text-xl ${achievement.category === 'Certificate' ? 'text-[#1A73E8]' : 'text-[#F9AB00]'}`}>
+                    {achievement.category === 'Certificate' ? 'verified' : 'emoji_events'}
+                </span>
+            </div>
+            <div>
+                <h4 className={`font-medium text-base mb-0.5 ${isSelected ? 'text-[#1967D2]' : 'text-[#202124]'}`}>
+                    {achievement.title}
+                </h4>
+                <p className="text-xs text-[#5F6368] flex items-center gap-1">
+                    <span>{achievement.category}</span>
+                    <span>•</span>
+                    <span>{achievement.date}</span>
+                </p>
+            </div>
+        </div>
+
+        <div className={`absolute top-3 right-3 size-2 rounded-full ${achievement.isVisible ? 'bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.4)]' : 'bg-gray-300'}`} />
+    </div>
+));
+
+AchievementListItem.displayName = 'AchievementListItem';
