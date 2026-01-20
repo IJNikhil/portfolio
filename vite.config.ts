@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
         // If repo is 'portfolio', base should be '/portfolio/'.
         // If User Site (nikki.github.io), base is '/'.
         // Usage: Set VITE_BASE_URL in .env or assume root.
-        base: env.VITE_BASE_URL || '/',
+        base: '/portfolio/',
 
         // Env variable exposure done automatically for VITE_ prefixed vars
 
