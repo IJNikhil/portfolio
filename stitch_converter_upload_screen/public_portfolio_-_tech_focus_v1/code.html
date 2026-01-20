@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Public Portfolio - Tech Focus V1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3e3e79",
+                        "accent-teal": "#2ADCE0",
+                        "background-light": "#f6f6f7",
+                        "background-dark": "#16161c",
+                        "card-dark": "#1d1d26",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .terminal-glow {
+            box-shadow: 0 0 20px rgba(62, 62, 121, 0.15);
+        }
+        .bento-border {
+            border: 1px solid rgba(62, 62, 121, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Minimal Top Navigation -->
+<nav class="sticky top-0 z-50 w-full border-b border-primary/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">terminal</span>
+</div>
+<span class="text-xl font-bold tracking-tight">dev_folio<span class="text-primary">.</span></span>
+</div>
+<div class="hidden md:flex items-center gap-8 text-sm font-medium">
+<a class="hover:text-primary transition-colors" href="#">Projects</a>
+<a class="hover:text-primary transition-colors" href="#">Achievements</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-[12px] font-mono text-accent-teal uppercase tracking-widest">
+<span class="size-2 rounded-full bg-accent-teal animate-pulse"></span>
+                    System Online
+                </div>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                    Resume
+                </button>
+</div>
+</div>
+</nav>
+<main class="max-w-[1200px] mx-auto px-6 py-12 space-y-24">
+<!-- Hero Section & Terminal Bio -->
+<section class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-6">
+<h1 class="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tight">
+                    Building the Future of <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-teal">Software Engineering</span>
+</h1>
+<p class="text-lg text-slate-500 dark:text-slate-400 max-w-lg leading-relaxed">
+                    Specializing in high-performance distributed systems, cloud infrastructure, and pixel-perfect architecture. Converting coffee into scalable code since 2018.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-[1.02] transition-transform">
+                        Explore Works
+                    </button>
+<div class="flex gap-2">
+<button class="size-14 rounded-xl border border-primary/20 flex items-center justify-center hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">code</span>
+</button>
+<button class="size-14 rounded-xl border border-primary/20 flex items-center justify-center hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">alternate_email</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Terminal Style Bio Card -->
+<div class="relative">
+<div class="w-full bg-[#0d0d12] rounded-xl overflow-hidden border border-white/10 terminal-glow font-mono text-sm">
+<div class="bg-white/5 px-4 py-3 flex items-center justify-between border-b border-white/10">
+<div class="flex gap-2">
+<div class="size-3 rounded-full bg-[#ff5f56]"></div>
+<div class="size-3 rounded-full bg-[#ffbd2e]"></div>
+<div class="size-3 rounded-full bg-[#27c93f]"></div>
+</div>
+<div class="text-white/40 text-[11px]">bash — index.ts</div>
+<div class="size-3"></div>
+</div>
+<div class="p-6 space-y-2 text-white/80">
+<p><span class="text-accent-teal">➜</span> <span class="text-primary">~</span> whoami</p>
+<p class="text-white/60">senior_software_engineer</p>
+<p><span class="text-accent-teal">➜</span> <span class="text-primary">~</span> locate --current-stack</p>
+<div class="grid grid-cols-2 gap-2 text-white/50 pt-2">
+<div class="flex items-center gap-2"><span class="text-primary">●</span> Kubernetes</div>
+<div class="flex items-center gap-2"><span class="text-primary">●</span> TypeScript</div>
+<div class="flex items-center gap-2"><span class="text-primary">●</span> Rust</div>
+<div class="flex items-center gap-2"><span class="text-primary">●</span> AWS / GCP</div>
+<div class="flex items-center gap-2"><span class="text-primary">●</span> PostgreSQL</div>
+<div class="flex items-center gap-2"><span class="text-primary">●</span> GraphQL</div>
+</div>
+<p class="pt-4"><span class="text-accent-teal">➜</span> <span class="text-primary">~</span> <span class="animate-pulse">_</span></p>
+</div>
+</div>
+<!-- Abstract floating element -->
+<div class="absolute -z-10 -bottom-6 -right-6 size-48 bg-primary/20 blur-[80px] rounded-full"></div>
+</div>
+</section>
+<!-- Statistics Bento Grid -->
+<section class="space-y-8">
+<div class="flex items-end justify-between px-2">
+<div>
+<h2 class="text-3xl font-bold tracking-tight">Statistics Dashboard</h2>
+<p class="text-slate-500 dark:text-slate-400">Real-time performance metrics and technical impact.</p>
+</div>
+<div class="text-xs font-mono text-primary uppercase tracking-widest hidden sm:block">
+                    Updated: 15m ago
+                </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
+<!-- Repositories -->
+<div class="md:col-span-2 lg:col-span-2 p-8 rounded-2xl bg-white dark:bg-card-dark bento-border flex flex-col justify-between group">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl">folder_zip</span>
+<span class="text-[#0bda68] text-xs font-bold px-2 py-1 bg-[#0bda68]/10 rounded">+12% growth</span>
+</div>
+<div class="mt-8">
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Repositories</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-bold tracking-tight">58</span>
+<span class="text-primary font-bold">OSS</span>
+</div>
+</div>
+</div>
+<!-- Contributions Heatmap (Simulated) -->
+<div class="md:col-span-2 lg:col-span-4 p-8 rounded-2xl bg-white dark:bg-card-dark bento-border flex flex-col justify-between">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-teal">monitoring</span>
+<h3 class="font-bold">Annual Contributions</h3>
+</div>
+<div class="text-2xl font-bold">1,240 <span class="text-sm font-normal text-slate-500">commits</span></div>
+</div>
+<div class="flex-1 flex items-end gap-2 h-24 mt-4 px-2">
+<!-- Simplified Histogram -->
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[40%]" title="Jan"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[60%]" title="Feb"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[85%]" title="Mar"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[50%]" title="Apr"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[75%]" title="May"></div>
+<div class="flex-1 bg-primary/30 rounded-t-sm hover:bg-primary transition-colors h-[95%]" title="Jun"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[30%]" title="Jul"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[45%]" title="Aug"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[65%]" title="Sep"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm hover:bg-primary transition-colors h-[80%]" title="Oct"></div>
+<div class="flex-1 bg-primary/40 rounded-t-sm hover:bg-primary transition-colors h-[90%]" title="Nov"></div>
+<div class="flex-1 bg-accent-teal rounded-t-sm h-[100%]" title="Dec"></div>
+</div>
+</div>
+<!-- Live Projects -->
+<div class="md:col-span-2 lg:col-span-3 p-8 rounded-2xl bg-white dark:bg-card-dark bento-border">
+<div class="flex items-center gap-4 mb-6">
+<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div>
+<h3 class="font-bold">24 Production Apps</h3>
+<p class="text-xs text-slate-500">Scaled to 1M+ users</p>
+</div>
+</div>
+<div class="flex -space-x-3 overflow-hidden">
+<div class="size-10 rounded-full border-2 border-background-dark bg-slate-800 flex items-center justify-center text-[10px] font-bold">AWS</div>
+<div class="size-10 rounded-full border-2 border-background-dark bg-slate-800 flex items-center justify-center text-[10px] font-bold">GCP</div>
+<div class="size-10 rounded-full border-2 border-background-dark bg-slate-800 flex items-center justify-center text-[10px] font-bold">VRC</div>
+<div class="size-10 rounded-full border-2 border-background-dark bg-slate-700 flex items-center justify-center text-[10px] font-bold">+18</div>
+</div>
+</div>
+<!-- System Health/Activity -->
+<div class="md:col-span-2 lg:col-span-3 p-8 rounded-2xl bg-white dark:bg-card-dark bento-border group overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="text-sm font-medium text-slate-500 uppercase tracking-widest mb-4">Latest Activity</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="size-2 rounded-full bg-accent-teal"></span>
+<span class="text-sm font-mono truncate">pushed to 'main' on infra-orchestrator</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="text-sm font-mono truncate">merged PR #431 in kernel-core</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="size-2 rounded-full bg-white/20"></span>
+<span class="text-sm font-mono truncate text-slate-500">deployed v2.4.0 to production</span>
+</div>
+</div>
+</div>
+<!-- Background Glow Pattern -->
+<div class="absolute -right-10 -bottom-10 size-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+</div>
+</div>
+</section>
+<!-- Tech Stack Ribbon -->
+<section class="border-y border-primary/10 py-10">
+<div class="flex flex-wrap justify-center items-center gap-12 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all">
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">javascript</span> Node.js</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">storage</span> PostgreSQL</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">cloud</span> Kubernetes</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">terminal</span> Rust</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">view_quilt</span> React</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">data_object</span> GraphQL</div>
+</div>
+</section>
+</main>
+<footer class="max-w-[1200px] mx-auto px-6 py-12 border-t border-primary/10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-6">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">GitHub</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Twitter</a>
+</div>
+<p class="text-sm text-slate-500 font-mono">
+                © 2024 Built with <span class="text-primary font-bold">integrity.sh</span>
+</p>
+<div class="flex items-center gap-2 text-[10px] font-mono text-slate-500 uppercase tracking-tighter">
+<span class="text-accent-teal">●</span> Latency: 24ms <span class="px-2">|</span> <span class="text-accent-teal">●</span> Load: 0.12
+            </div>
+</div>
+</footer>
+</body></html>

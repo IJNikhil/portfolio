@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Panel - Project CRUD V2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00c2a5",
+                        "background-light": "#fafaf9",
+                        "background-dark": "#17191c",
+                        "slate-custom": "#1e293b",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-custom dark:text-gray-200 min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-gray-200 dark:border-gray-800 flex flex-col bg-white dark:bg-background-dark sticky top-0 h-screen">
+<div class="p-6 flex items-center gap-3">
+<div class="h-10 w-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-2xl">outdoor_garden</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none">Digital Garden</h1>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-widest">Admin v2.0</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">folder_open</span>
+<span class="font-medium">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-medium">Messages</span>
+<span class="ml-auto bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full">3</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-100 dark:border-gray-800">
+<a class="flex items-center gap-3 px-3 py-2.5 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-3 py-2">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-gray-700 bg-cover bg-center" data-alt="User avatar profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRaah7NQusqTdpAfKMBtzeOBmC26ghbaP65dRkyFIW00sjpsOwEHYM1EKlzZZ7iUId5YAKWAbscB7U1ydB1ARUW-cocXdOCGGIG3R7phBbnn2CpB9u7EDXmOIRSLh5T2bb4T4WoT46-uB7ZNLueVS4nPGFitVS04LkUQw1pVsL-dxTRxCoYh2gJp0cDru21ZjuZU4I3t9sIxdiWmRE9FULSNfx-qt58DsUGzr3j2TmzhUArQOGYhqQeb_GdkLdNHiAB39sSTxYuQ-p')"></div>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Alex Rivier</p>
+<p class="text-[10px] text-gray-500 uppercase tracking-tighter">Chief Editor</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative overflow-hidden">
+<!-- Top Bar / Header Component -->
+<header class="p-8 pb-4">
+<div class="flex flex-wrap items-end justify-between gap-4 max-w-6xl mx-auto">
+<div class="flex flex-col gap-1">
+<h2 class="text-4xl font-black tracking-tight text-slate-custom dark:text-white">Project Management</h2>
+<p class="text-gray-500 dark:text-gray-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+                        14 active projects in your portfolio
+                    </p>
+</div>
+<button class="flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+                    Add New Project
+                </button>
+</div>
+</header>
+<!-- Tabs Navigation -->
+<section class="px-8 mt-4">
+<div class="max-w-6xl mx-auto">
+<div class="flex border-b border-gray-200 dark:border-gray-800 gap-8">
+<a class="flex items-center gap-2 border-b-2 border-primary text-primary pb-4 font-bold text-sm tracking-wide" href="#">
+                        All Projects <span class="bg-primary/10 px-2 py-0.5 rounded text-[10px]">14</span>
+</a>
+<a class="flex items-center gap-2 border-b-2 border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 pb-4 font-bold text-sm tracking-wide" href="#">
+                        Drafts <span class="bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-[10px]">2</span>
+</a>
+<a class="flex items-center gap-2 border-b-2 border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 pb-4 font-bold text-sm tracking-wide" href="#">
+                        Archived
+                    </a>
+</div>
+</div>
+</section>
+<!-- Content Grid -->
+<section class="flex-1 overflow-y-auto custom-scrollbar p-8">
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Project Card 1 -->
+<div class="group bg-white dark:bg-background-dark border border-gray-100 dark:border-gray-800 p-4 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="flex gap-4">
+<div class="w-40 h-40 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 dark:border-gray-800 relative">
+<div class="absolute inset-0 bg-center bg-cover bg-no-repeat group-hover:scale-110 transition-transform duration-500" data-alt="Screenshot of an e-commerce platform interface" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzezb5pzCS37gdCEId52Xjm5ByfWB4OTK7AflfznBcNwJHQwA1RddLTlPkxahNtnC5oeWuJgfu1k8kiFxZZzG6JeGPDf42nVMlTZsEQ8Ok-0yMnWFnkLI-d343eCQrcdAKyHMABXwGOZDmL4OdShsVVmF8r7poW93gYmOv3not-ARW4UhbIIE92qibNMHvn80NZtYKh15k3aEIJRH_dm13qUiFnh384sVm2cPT03CFRsIqOU19QQyMhbMee_vbeHQLWhLBM3_sFCUv')"></div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-xl text-slate-custom dark:text-white group-hover:text-primary transition-colors">Neo-Market SaaS</h3>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">React</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">Tailwind</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">Node.js</span>
+</div>
+</div>
+<div class="flex gap-1">
+<button class="p-1.5 text-gray-400 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-red-500 transition-colors hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-3 line-clamp-2">A high-performance e-commerce engine designed for boutique agencies and digital creators.</p>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-50 dark:border-gray-800">
+<span class="text-[11px] text-gray-400 uppercase font-medium">Updated 2 days ago</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAW423p4gqfseWmVD4UxzLSsrm_6O0JYLXJZX8Sh5q1N9b96GtGyIrvELQUZTAhNAwqno7HfcXXwpqfrxUVUTwbxcElF6TQQK82sV8n0WZ8T9_Si3KeCJMgpxl2b0TQYivl6hEwbvWyw8EGiddSo0_iSsx2mMq9yYZOjD5NdkN0mtaYZVtAcVhCkc8rxLa4x715mBT87ATeF_zkq0Cl45-UsO7FWaLEvPDZS4tFpBlpVL1Rq8uwvFzpNcZh3XKVNc5PsbzJ01AvSapK')"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAL-lT_hnIBmmIEcqmn2d3t8d6NbAVWItzh3Tn8YJ9IK4bpC0Z8gVVX5KjIlRmdC81T7y9E9yPwz3gDDH3yKOVXTJDcrSQDjchYRpfuUIdkiz0AM5B4PaAcwhWpKlk3e1_QRPK41VBVcOZJgy-S12S9pWNcWFDvlmHAP_37rT0xtNy2OaqOtnd76bIXXdZn0N86O7zWVFtp7hS6bnOPeMJEagra0kfFF8BLzO8-XM86aa-_JUgq9g_YevpDtwkxsJGE8iO6Fol7TuS_')"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="group bg-white dark:bg-background-dark border border-gray-100 dark:border-gray-800 p-4 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="flex gap-4">
+<div class="w-40 h-40 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 dark:border-gray-800 relative">
+<div class="absolute inset-0 bg-center bg-cover bg-no-repeat group-hover:scale-110 transition-transform duration-500" data-alt="Visualization of a crypto trading dashboard" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVIsnQo6cWZvjZMrv0PHk4LAX0QDidHnfgPZN7zm9_E_LrCLZVr2CBYEqmwTxNPvqATWv0iRTWvMC8F5cMUTYvdEXpVBCCuLODfKdo4vkAdLgW_z63RLyEsxl-uwVUHRmh18Z2FRer_Kx8vGZ_F_MrbmmWZ9NYjsumchFXj5ZNe6W-3wQIeOB2y0cl2uOwvgiXEHtqdGDOx4oZm8Ik_wfMX6Ja77NiC99baNkOnFBSjihwYE0KZwDxDynoax3z-EYq7oE7-Hv89HYn')"></div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-xl text-slate-custom dark:text-white group-hover:text-primary transition-colors">EtherFlow Wallet</h3>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">Web3</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">TypeScript</span>
+</div>
+</div>
+<div class="flex gap-1">
+<button class="p-1.5 text-gray-400 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-red-500 transition-colors hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-3 line-clamp-2">Real-time asset tracking and cross-chain bridging with simplified UX for newcomers.</p>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-50 dark:border-gray-800">
+<span class="text-[11px] text-gray-400 uppercase font-medium">Updated 5 hours ago</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnZZu6T8bUfao_fWs-tsOwmgNlBATaxl8hUTQxHjE06mIxOxrkjGvhbO8S3rl27be4iV4EUiPhNyPNpvrpW7USl4Zwi6tS9d1vatDwUI_ulizX-C9NQVpVLhMWj0la3jfK5loY9bKikfHrgvH39ATMixRC5Ae3TO0GxGKvJR2YTPQBn6_-TdOi0yFu545tKYAMMWBeUwoQBNtwhIT-z2LYFdoGyVhoDOj49MafYtE0pFiQF-_vTI3a1Uetn8XHBoObxfhOLwtlTAhj')"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="group bg-white dark:bg-background-dark border border-gray-100 dark:border-gray-800 p-4 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="flex gap-4">
+<div class="w-40 h-40 shrink-0 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 dark:border-gray-800 relative">
+<div class="absolute inset-0 bg-center bg-cover bg-no-repeat group-hover:scale-110 transition-transform duration-500" data-alt="UI design for a healthcare tracking mobile app" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA396FHL-Keg-zKAbkWDJv2uOjRt2I8u6aJKeeF0YFg9WvqcpKj9htQ07vabhRDpAut-gGTG0On8Y2-AYAv56mcH3fKMKf9y8Ajf1vIy_w_EoYV9lRn1aNrqVBUKHR1-j_Nfe_4Qj90tcLi7AoYJYIamZN0h7tMXhKljFcT5MUNGZJqn2SYy7BUf99Ww-XUcqzHLX6el1CK6J-u6Z5aRsI6Lv_-0fAISEeZYv2_GuCsyqPwkVbeKL1gUIFBvYELjP94ltmzS4S7fQtW')"></div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-xl text-slate-custom dark:text-white group-hover:text-primary transition-colors">VitalsSync App</h3>
+<div class="flex flex-wrap gap-1 mt-2">
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">HealthTech</span>
+<span class="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase tracking-tighter">Flutter</span>
+</div>
+</div>
+<div class="flex gap-1">
+<button class="p-1.5 text-gray-400 hover:text-primary transition-colors hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-red-500 transition-colors hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-3 line-clamp-2">Patient monitoring solution with secure data handling and doctor portal integration.</p>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-50 dark:border-gray-800">
+<span class="text-[11px] text-gray-400 uppercase font-medium">Updated 1 week ago</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdf1GoWS-whSE7OCaV544S2PakKAGmPezgvbBFVVJNllIJInLMLE-KMn4Xxc1tJtQ6ajs8Vir_GyMQoCsaATIXMfVcEfbs3oW5nEXTkQGXVLPlQPGP3iGD-mtCVoQwgggKA_Nv-_nrCRMzRJWKCujejqxxPeQWI6FiuEHBVDTW_MOafZr1pchBG1YSdBT16qn9LTFoNlNUHbXaKsnxx8X_k4-L_WNbvgp_pC-TwWrx_ZDO_pBqOxFyZ9J2LCsqtDDfv1o_OA2fK7At')"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPUsuwlnzxRTNcfGNC6QTg_7_YN8b2BOol1CtvjS3U88X5Lluz53hxbGqLgvWVaUuASLx4lg7HUkwWM8oCvO329R8oMjukSrhZZM5pe-wJAFI74-01KgGSx4Bl4klIEcPPwH3KKNWqO0WzjndzdlmsLFm-a1ZqrsoRGl7J4sdCQ21vyP32RpdcOAVrdZgM_26mZvIy397_9Bz2_dVZ1DDKnaNWf-a2WXZpj9AGA_5T1dfJ8hrZS7H11F0cwa3jvPdaaS9ZWC2MRiTv')"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white dark:border-background-dark bg-gray-200" data-alt="Team member icon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjyMqCbNZ2gnEI1kcL6UsNWw0SV1gwVu2vHoLuoXXzpDmgCFAyF_jTnhCbs7J5CTVNyTOJbbm73dWwa7yMrgSIWcsEKtPpOIw9eac1oC8-gZ584wLucrx0rUjJBCSJOXXSFUx9wNIeaz1K8Y4JxMVzHjM_-Ld_tu0BKOsnBb6uDb13XXPtnYtX4dL3w5MEsebtCw7oCGOfkU_UbT9zZTt-lQ2PIA4WtVrIg6T50HJevCrvzQIfXdhcVN5cEUrOV8hZlE9fKW818Csn')"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add New Empty State Suggestion -->
+<div class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl bg-gray-50/50 dark:bg-gray-800/20 hover:bg-gray-100/50 transition-colors cursor-pointer group">
+<div class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">add</span>
+</div>
+<p class="font-bold text-gray-400 group-hover:text-primary transition-colors">Start a new project</p>
+</div>
+</div>
+</section>
+<!-- Overlay / Side Panel (Active State Simulation) -->
+<div class="absolute inset-0 z-50 pointer-events-none overflow-hidden">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-slate-custom/40 dark:bg-black/60 backdrop-blur-sm pointer-events-auto transition-opacity opacity-100"></div>
+<!-- Side Panel Container -->
+<div class="absolute right-0 top-0 h-full w-[480px] bg-white dark:bg-background-dark shadow-2xl pointer-events-auto flex flex-col translate-x-0 transition-transform duration-300">
+<div class="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">create_new_folder</span>
+</div>
+<h2 class="text-xl font-black text-slate-custom dark:text-white tracking-tight">Add New Project</h2>
+</div>
+<button class="text-gray-400 hover:text-slate-custom dark:hover:text-white p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8">
+<!-- Title Input -->
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-gray-500">Project Title</label>
+<input class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="Enter a descriptive title..." type="text"/>
+</div>
+<!-- Description Textarea -->
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-gray-500">Brief Description</label>
+<textarea class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="What is this project about?" rows="4"></textarea>
+</div>
+<!-- Tech Stack Input -->
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-gray-500">Technology Tags</label>
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full flex items-center gap-1">
+                                React <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+<span class="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full flex items-center gap-1">
+                                Node.js <span class="material-symbols-outlined text-xs cursor-pointer">close</span>
+</span>
+</div>
+<input class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="Press enter to add tag..." type="text"/>
+</div>
+<!-- Image Upload -->
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-gray-500">Featured Image</label>
+<div class="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-8 flex flex-col items-center justify-center gap-3 bg-gray-50/30 dark:bg-gray-800/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-4xl text-gray-300 group-hover:text-primary transition-colors">upload_file</span>
+<div class="text-center">
+<p class="text-sm font-bold text-gray-500 group-hover:text-slate-custom dark:group-hover:text-white">Click to upload or drag and drop</p>
+<p class="text-[11px] text-gray-400 mt-1">PNG, JPG or WebP (max. 5MB)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 border-t border-gray-100 dark:border-gray-800 flex gap-4">
+<button class="flex-1 px-6 py-3 border border-gray-200 dark:border-gray-800 text-slate-custom dark:text-white font-bold rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        Cancel
+                    </button>
+<button class="flex-1 px-6 py-3 bg-primary text-white font-bold rounded-lg shadow-lg shadow-primary/20 hover:bg-primary/90 active:scale-95 transition-all">
+                        Create Project
+                    </button>
+</div>
+</div>
+</div>
+<!-- Success Toast Notification (Positioned for Demo) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-3 px-6 py-3 bg-slate-custom dark:bg-white text-white dark:text-slate-custom rounded-xl shadow-2xl animate-bounce">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="font-bold text-sm">Project "Neo-Market SaaS" updated successfully!</span>
+<button class="ml-4 text-gray-400 hover:text-white dark:hover:text-slate-custom">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</main>
+</body></html>

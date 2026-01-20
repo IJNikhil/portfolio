@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Panel - Settings V3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00c2a5",
+                        "background-light": "#f0f2f5",
+                        "background-dark": "#111418",
+                        "card-dark": "#1D2024",
+                        "border-dark": "#2D3238",
+                        "neon-magenta": "#FF00CC",
+                        "neon-lime": "#7FFF00",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .cyber-border {
+            border: 1px solid #2D3238;
+        }
+        .cyber-border:hover {
+            border-color: #00c2a5;
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 10px rgba(0, 194, 165, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #111418;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2D3238;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-[#E8EDF1] min-h-screen">
+<!-- Main Layout Wrapper -->
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar (Collapsible Style - Compact) -->
+<aside class="w-20 lg:w-64 border-r border-border-dark bg-background-dark flex flex-col transition-all duration-300">
+<div class="p-6 flex items-center gap-3">
+<div class="size-8 bg-primary rounded-sm flex items-center justify-center text-background-dark">
+<span class="material-symbols-outlined font-bold">terminal</span>
+</div>
+<div class="hidden lg:block">
+<h1 class="text-sm font-bold uppercase tracking-widest text-white leading-none">Control</h1>
+<p class="text-[10px] text-primary font-medium tracking-tighter uppercase mt-1">V3 System Active</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-4 px-3 py-3 text-primary bg-primary/10 border-l-2 border-primary group" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Overview</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Analytics</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">folder_special</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Portfolio</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">share</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Social Connect</span>
+</a>
+<a class="flex items-center gap-4 px-3 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all group" href="#">
+<span class="material-symbols-outlined">dns</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Deployment</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-dark space-y-2">
+<div class="hidden lg:flex flex-col gap-1 mb-4">
+<div class="flex justify-between text-[10px] uppercase font-bold text-slate-500">
+<span>Server Load</span>
+<span class="text-neon-lime">Optimal</span>
+</div>
+<div class="w-full bg-border-dark h-1 rounded-full overflow-hidden">
+<div class="bg-neon-lime h-full w-[24%]"></div>
+</div>
+</div>
+<button class="w-full flex items-center gap-4 px-3 py-3 text-slate-400 hover:text-white transition-all">
+<span class="material-symbols-outlined">logout</span>
+<span class="hidden lg:block text-sm font-medium uppercase tracking-tight">Terminate</span>
+</button>
+</div>
+</aside>
+<!-- Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-dark overflow-y-auto custom-scrollbar">
+<!-- Top Navigation Bar -->
+<header class="h-16 border-b border-border-dark flex items-center justify-between px-8 sticky top-0 bg-background-dark/80 backdrop-blur-md z-10">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 uppercase tracking-widest">
+<a class="hover:text-primary transition-colors" href="#">Admin</a>
+<span class="text-border-dark">/</span>
+<span class="text-white">Settings V3</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-card-dark border border-border-dark px-3 py-1.5 rounded-sm">
+<span class="material-symbols-outlined text-slate-400 text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-[10px] w-48 text-white placeholder:text-slate-600 font-bold uppercase tracking-widest" placeholder="CMD + K TO SEARCH" type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="size-8 flex items-center justify-center border border-border-dark hover:border-primary text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">notifications</span>
+</button>
+<button class="size-8 flex items-center justify-center border border-border-dark hover:border-primary text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+<div class="size-8 bg-slate-800 border border-border-dark overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User avatar placeholder profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxR5lPWmLYl03pPn2zG4Oy9UBhD4RtfsgXXtkrwp-CY5Uv9QWacyIKjdq2PQe667NZsucDXAqdSS_GhuffMSCH7x_Gj546BehfYsrGhbIzkEJepBzBycbxhes6Bc2mr3QMs0f5U7pP72M-WT4DEhu9-7gQFQSFUEmfTZy9jHd6WXaAdtdkqjPOMsTo2AfDuQ3JDqP94lnTTx9vEUFT96dmWoD43NdGVo55H1ePdp9tIOuEuAKYmxl8PA5EL4JmMvdTW2W_pSeZkH5z"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Grid Dashboard -->
+<div class="p-8 space-y-8">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-bold text-white tracking-tighter uppercase">Settings Control Center</h2>
+<p class="text-slate-500 text-sm mt-1 uppercase tracking-widest font-medium">Site-wide preferences and real-time performance metrics</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2 border border-border-dark text-white text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all">Discard</button>
+<button class="px-6 py-2 bg-primary text-background-dark text-xs font-bold uppercase tracking-widest hover:bg-primary/90 transition-all neon-glow-primary">Commit Changes</button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Settings (Site Identity, SEO, Social) -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<!-- Site Identity Card -->
+<div class="bg-card-dark cyber-border p-6">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">id_card</span>
+<h3 class="text-sm font-bold uppercase tracking-widest text-white">Site Identity</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Site Display Name</label>
+<input class="w-full bg-background-dark border border-border-dark focus:border-primary focus:ring-0 text-white p-3 text-sm" type="text" value="Neon Portfolio V3"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Global Tagline</label>
+<input class="w-full bg-background-dark border border-border-dark focus:border-primary focus:ring-0 text-white p-3 text-sm" type="text" value="Digital Architect &amp; Creative Developer"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Primary Language</label>
+<select class="w-full bg-background-dark border border-border-dark focus:border-primary focus:ring-0 text-white p-3 text-sm">
+<option>English (US)</option>
+<option>Japanese</option>
+<option>German</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Timezone</label>
+<select class="w-full bg-background-dark border border-border-dark focus:border-primary focus:ring-0 text-white p-3 text-sm">
+<option>UTC-08:00 Pacific</option>
+<option>UTC+00:00 GMT</option>
+</select>
+</div>
+</div>
+</div>
+<!-- SEO Engine Card -->
+<div class="bg-card-dark cyber-border p-6">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-neon-magenta">travel_explore</span>
+<h3 class="text-sm font-bold uppercase tracking-widest text-white">SEO Meta Engine</h3>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Global Meta Description</label>
+<textarea class="w-full bg-background-dark border border-border-dark focus:border-neon-magenta focus:ring-0 text-white p-3 text-sm" rows="3">Advanced portfolio showcasing digital transformation and high-performance web architecture built with modern tech stacks.</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex items-center justify-between p-4 border border-border-dark bg-background-dark/50">
+<div>
+<p class="text-xs font-bold text-white uppercase">Index Site</p>
+<p class="text-[10px] text-slate-500 uppercase">Allow search engines to index</p>
+</div>
+<div class="w-10 h-5 bg-primary/20 border border-primary/50 rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 size-3 bg-primary rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 border border-border-dark bg-background-dark/50">
+<div>
+<p class="text-xs font-bold text-white uppercase">Sitemap Auto-Gen</p>
+<p class="text-[10px] text-slate-500 uppercase">Daily sitemap updates</p>
+</div>
+<div class="w-10 h-5 bg-slate-800 border border-slate-700 rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 size-3 bg-slate-600 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Social Ecosystem -->
+<div class="bg-card-dark cyber-border p-6">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-neon-lime">hub</span>
+<h3 class="text-sm font-bold uppercase tracking-widest text-white">Social Connect</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 border border-border-dark bg-background-dark group hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-10 flex items-center justify-center bg-slate-800 text-white">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div>
+<p class="text-xs font-bold text-white uppercase tracking-wider">GitHub Enterprise</p>
+<p class="text-[10px] text-primary uppercase font-bold tracking-tighter">Connected as @neonarch</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">link</span>
+</div>
+<div class="flex items-center justify-between p-4 border border-border-dark bg-background-dark group hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-10 flex items-center justify-center bg-slate-800 text-white">
+<span class="material-symbols-outlined">work</span>
+</div>
+<div>
+<p class="text-xs font-bold text-white uppercase tracking-wider">LinkedIn Professional</p>
+<p class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Connection Pending</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600">link_off</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Statistics & Visualizations -->
+<div class="col-span-12 lg:col-span-5 space-y-6">
+<!-- Performance Overview Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-card-dark cyber-border p-4 flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Site Views</p>
+<div>
+<h4 class="text-3xl font-bold text-white tracking-tighter">42.8K</h4>
+<p class="text-[10px] text-neon-lime uppercase font-bold">+12% vs LY</p>
+</div>
+</div>
+<div class="bg-card-dark cyber-border p-4 flex flex-col justify-between aspect-square md:aspect-auto md:h-32">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Avg. Session</p>
+<div>
+<h4 class="text-3xl font-bold text-white tracking-tighter">04:12</h4>
+<p class="text-[10px] text-neon-magenta uppercase font-bold">-2% vs LY</p>
+</div>
+</div>
+</div>
+<!-- Live Traffic Chart (Simulation with CSS/SVG) -->
+<div class="bg-card-dark cyber-border p-6 overflow-hidden relative">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+<h3 class="text-sm font-bold uppercase tracking-widest text-white">Live Traffic</h3>
+</div>
+<span class="text-[10px] font-bold text-neon-lime bg-neon-lime/10 px-2 py-0.5 rounded-sm">REALTIME</span>
+</div>
+<!-- Neon SVG Chart -->
+<div class="h-48 w-full relative group">
+<svg class="w-full h-full" viewbox="0 0 400 150">
+<defs>
+<lineargradient id="gradient-neon" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#00c2a5;stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#FF00CC;stop-opacity:0.2"></stop>
+</lineargradient>
+</defs>
+<!-- Grid lines -->
+<line stroke="#2D3238" stroke-width="0.5" x1="0" x2="400" y1="30" y2="30"></line>
+<line stroke="#2D3238" stroke-width="0.5" x1="0" x2="400" y1="70" y2="70"></line>
+<line stroke="#2D3238" stroke-width="0.5" x1="0" x2="400" y1="110" y2="110"></line>
+<!-- Neon Paths -->
+<path class="drop-shadow-[0_0_5px_rgba(0,194,165,0.8)]" d="M0 120 Q 50 140, 100 80 T 200 60 T 300 100 T 400 40" fill="none" stroke="#00c2a5" stroke-width="2"></path>
+<path class="drop-shadow-[0_0_5px_rgba(255,0,204,0.8)]" d="M0 130 Q 50 110, 100 140 T 200 90 T 300 120 T 400 70" fill="none" stroke="#FF00CC" stroke-width="2"></path>
+</svg>
+<!-- Interactive marker -->
+<div class="absolute left-1/2 top-10 w-[1px] h-32 bg-primary/30 group-hover:bg-primary transition-colors">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-primary text-background-dark text-[8px] font-bold px-1 py-0.5 rounded-sm">1,204 REQS</div>
+</div>
+</div>
+<div class="flex justify-between mt-6 pt-6 border-t border-border-dark">
+<div class="flex items-center gap-2">
+<div class="size-2 bg-primary rounded-full"></div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Organic</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 bg-neon-magenta rounded-full"></div>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Referral</span>
+</div>
+</div>
+</div>
+<!-- Top Geographic Sources -->
+<div class="bg-card-dark cyber-border p-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-white mb-6">Geographic Load</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-slate-600">01</span>
+<span class="text-xs font-bold text-white uppercase tracking-wider">United States</span>
+</div>
+<div class="flex items-center gap-4 flex-1 max-w-[120px]">
+<div class="flex-1 bg-border-dark h-1.5 overflow-hidden">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<span class="text-[10px] font-bold text-primary">85%</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-slate-600">02</span>
+<span class="text-xs font-bold text-white uppercase tracking-wider">Japan</span>
+</div>
+<div class="flex items-center gap-4 flex-1 max-w-[120px]">
+<div class="flex-1 bg-border-dark h-1.5 overflow-hidden">
+<div class="bg-neon-magenta h-full w-[42%]"></div>
+</div>
+<span class="text-[10px] font-bold text-neon-magenta">42%</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold text-slate-600">03</span>
+<span class="text-xs font-bold text-white uppercase tracking-wider">Germany</span>
+</div>
+<div class="flex items-center gap-4 flex-1 max-w-[120px]">
+<div class="flex-1 bg-border-dark h-1.5 overflow-hidden">
+<div class="bg-neon-lime h-full w-[18%]"></div>
+</div>
+<span class="text-[10px] font-bold text-neon-lime">18%</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border-t border-border-dark text-[10px] font-bold text-slate-500 uppercase hover:text-white transition-colors">Expand Full Map Data</button>
+</div>
+</div>
+</div>
+<!-- Footer System Info -->
+<footer class="flex items-center justify-between pt-8 border-t border-border-dark text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+<div class="flex gap-6">
+<span>Environment: Production</span>
+<span>API Status: 200 OK</span>
+<span>Last Build: 2m ago</span>
+</div>
+<div>
+                        © 2024 NEON PORTFOLIO ADMIN V3.0.4
+                    </div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>
