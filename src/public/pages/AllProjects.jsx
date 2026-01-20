@@ -5,10 +5,6 @@ import GlassCard from "../components/ui/GlassCard";
 import Button from "../components/ui/Button";
 import Container from "../components/ui/Container";
 import SectionTitle from "../components/ui/SectionTitle";
-import GlassCard from "../components/ui/GlassCard";
-import Button from "../components/ui/Button";
-import Container from "../components/ui/Container";
-import SectionTitle from "../components/ui/SectionTitle";
 import { usePortfolio } from "../../shared/context/PortfolioContext";
 
 const overlayVariants = {

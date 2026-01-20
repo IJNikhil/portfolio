@@ -24,3 +24,4 @@ dist-ssr
 
 # Security
 .env
+google-apps-script.js

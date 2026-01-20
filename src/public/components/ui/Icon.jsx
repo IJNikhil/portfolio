@@ -1,4 +1,5 @@
 import { Github, Linkedin, Twitter } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 export default function Icon({ name, className = "" }) {
