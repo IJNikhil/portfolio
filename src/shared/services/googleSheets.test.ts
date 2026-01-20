@@ -2,7 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GoogleSheetsService } from './googleSheets';
 
 // Mock environment variable
-vi.stubEnv('VITE_GOOGLE_SCRIPT_URL', 'https://script.google.com/test');
+// vi.stubEnv is unreliable with Vite's import.meta.env in some JSDOM setups
+// We will spy on the private method via prototype or just mock the value if I expose it, 
+// but easier: just rely on process.env fallback working OR mock the module if needed.
+// Better approach: We refactored the service to have a static helper. We can spy on it.
 
 describe('GoogleSheetsService', () => {
     beforeEach(() => {
@@ -10,6 +13,9 @@ describe('GoogleSheetsService', () => {
         vi.clearAllMocks();
         localStorage.clear();
         global.fetch = vi.fn();
+
+        // Mock the getScriptUrl method - requires casting to accessing private/static
+        vi.spyOn(GoogleSheetsService as any, 'getScriptUrl').mockReturnValue('https://script.google.com/test');
     });
 
     describe('request', () => {
@@ -41,7 +47,7 @@ describe('GoogleSheetsService', () => {
         });
 
         it('returns configuration error when SCRIPT_URL is missing', async () => {
-            vi.stubEnv('VITE_GOOGLE_SCRIPT_URL', '');
+            vi.spyOn(GoogleSheetsService as any, 'getScriptUrl').mockReturnValue(undefined);
 
             const result = await GoogleSheetsService.request({ action: 'test' });
 

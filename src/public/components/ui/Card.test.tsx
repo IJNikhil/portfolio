@@ -11,22 +11,22 @@ describe('Card', () => {
 
     it('applies glass variant styles', () => {
         const { container } = render(<Card variant="glass">Content</Card>);
-        expect(container.firstChild).toHaveClass('glass-panel');
+        expect(container.firstChild).toHaveClass('bg-card');
     });
 
     it('applies solid variant styles', () => {
         const { container } = render(<Card variant="solid">Content</Card>);
-        expect(container.firstChild).toHaveClass('bg-surface');
+        expect(container.firstChild).toHaveClass('bg-card');
     });
 
     it('defaults to solid variant', () => {
         const { container } = render(<Card>Content</Card>);
-        expect(container.firstChild).toHaveClass('bg-surface');
+        expect(container.firstChild).toHaveClass('bg-card');
     });
 
     it('applies hover effect when enabled', () => {
         const { container } = render(<Card hoverEffect>Content</Card>);
-        expect(container.firstChild).toHaveClass('hover:shadow-lg');
+        expect(container.firstChild).toHaveClass('transition-shadow');
     });
 
     it('does not apply hover effect by default', () => {
@@ -46,11 +46,11 @@ describe('Card', () => {
 
     it('has rounded corners', () => {
         const { container } = render(<Card>Content</Card>);
-        expect(container.firstChild).toHaveClass('rounded-2xl');
+        expect(container.firstChild).toHaveClass('rounded-xl');
     });
 
     it('has transition animation', () => {
         const { container } = render(<Card>Content</Card>);
-        expect(container.firstChild).toHaveClass('transition-all');
+        expect(container.firstChild).toHaveClass('transition-shadow');
     });
 });

@@ -16,8 +16,13 @@ export class GoogleSheetsService {
         return localStorage.getItem("admin_auth_token");
     }
 
+    // Helper for easier mocking in tests
+    private static getScriptUrl(): string | undefined {
+        return import.meta.env.VITE_GOOGLE_SCRIPT_URL || (process.env.VITE_GOOGLE_SCRIPT_URL as string);
+    }
+
     static async request<T>(payload: Payload): Promise<ServiceResponse<T>> {
-        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+        const SCRIPT_URL = this.getScriptUrl();
 
         if (!SCRIPT_URL) {
             console.error("VITE_GOOGLE_SCRIPT_URL is missing.");

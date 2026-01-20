@@ -22,7 +22,7 @@ describe('SkeletonLoader', () => {
 
     it('respects custom count prop', () => {
         const { container } = render(<SkeletonLoader variant="list" count={5} />);
-        const items = container.querySelectorAll('.space-y-4 > div');
+        const items = container.querySelectorAll('.space-y-3 > div');
         expect(items.length).toBe(5);
     });
 

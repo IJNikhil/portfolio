@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { cn } from "../../../shared/utils/cn";
 
-export default function Button({ variant = "primary", children, onClick, className = "", ...props }) {
+export default function Button({ variant = "primary", isLoading, children, onClick, className = "", ...props }) {
   const baseClasses = "rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-accent/50 text-base py-3 px-6 inline-flex justify-center items-center";
   let variantClasses = "";
 

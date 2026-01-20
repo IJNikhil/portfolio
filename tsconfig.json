@@ -1,5 +1,7 @@
 {
-    "files": [],
+    "files": [
+        "./src/test/setup.ts"
+    ],
     "references": [
         {
             "path": "./tsconfig.app.json"

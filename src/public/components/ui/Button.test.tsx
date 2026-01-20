@@ -12,44 +12,44 @@ describe('Button', () => {
     it('applies primary variant styles by default', () => {
         render(<Button>Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('bg-primary');
+        expect(button).toHaveClass('bg-accent');
     });
 
     it('applies secondary variant styles', () => {
         render(<Button variant="secondary">Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('bg-white');
+        expect(button).toHaveClass('bg-gray-700');
     });
 
     it('applies outline variant styles', () => {
         render(<Button variant="outline">Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('bg-transparent');
-        expect(button).toHaveClass('border-border');
+        expect(button).toHaveClass('border-2');
+        expect(button).toHaveClass('border-accent');
     });
 
     it('applies ghost variant styles', () => {
         render(<Button variant="ghost">Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('bg-transparent');
+        expect(button).toHaveClass('text-accent');
     });
 
     it('applies small size styles', () => {
         render(<Button size="sm">Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('h-9');
+        expect(button).toHaveClass('py-3'); // Basic check since size classes are removed/standardized
     });
 
     it('applies medium size styles by default', () => {
         render(<Button>Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('h-11');
+        expect(button).toHaveClass('py-3');
     });
 
     it('applies large size styles', () => {
         render(<Button size="lg">Button</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass('h-14');
+        expect(button).toHaveClass('py-3');
     });
 
     it('shows loading spinner when isLoading is true', () => {

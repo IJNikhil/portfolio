@@ -1,7 +1,7 @@
-export default function SkeletonLoader({ type = "card" }: { type?: "card" | "list" | "text" }) {
-    if (type === "card") {
+export default function SkeletonLoader({ variant = "card", ...props }: { variant?: "card" | "list" | "text", count?: number, lines?: number, className?: string }) {
+    if (variant === "card") {
         return (
-            <div className="bg-surface-dark rounded-lg p-6 animate-pulse">
+            <div className={`bg-surface-dark rounded-lg p-6 animate-pulse ${props.className || ''}`}>
                 <div className="h-6 bg-gray-700 rounded w-3/4 mb-4"></div>
                 <div className="h-4 bg-gray-700 rounded w-full mb-2"></div>
                 <div className="h-4 bg-gray-700 rounded w-5/6 mb-4"></div>
@@ -14,10 +14,12 @@ export default function SkeletonLoader({ type = "card" }: { type?: "card" | "lis
         );
     }
 
-    if (type === "list") {
+    if (variant === "list") {
+        // Use count prop if provided, default to 3
+        const items = Array.from({ length: props.count || 3 });
         return (
-            <div className="space-y-3 animate-pulse">
-                {[1, 2, 3, 4, 5].map((i) => (
+            <div className={`space-y-3 animate-pulse ${props.className || ''}`}>
+                {items.map((_, i) => (
                     <div key={i} className="flex items-center gap-4 bg-surface-dark p-4 rounded-lg">
                         <div className="w-12 h-12 bg-gray-700 rounded-full"></div>
                         <div className="flex-1">
@@ -30,12 +32,13 @@ export default function SkeletonLoader({ type = "card" }: { type?: "card" | "lis
         );
     }
 
-    // text type
+    // text variant
+    const textLines = Array.from({ length: props.lines || 3 });
     return (
-        <div className="space-y-2 animate-pulse">
-            <div className="h-4 bg-gray-700 rounded w-full"></div>
-            <div className="h-4 bg-gray-700 rounded w-5/6"></div>
-            <div className="h-4 bg-gray-700 rounded w-4/6"></div>
+        <div className={`space-y-2 animate-pulse ${props.className || ''}`}>
+            {textLines.map((_, i) => (
+                <div key={i} className={`h-4 bg-gray-700 rounded ${i === textLines.length - 1 ? 'w-4/6' : 'w-full'}`}></div>
+            ))}
         </div>
     );
 }
