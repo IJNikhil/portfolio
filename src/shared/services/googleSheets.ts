@@ -1,6 +1,6 @@
 import { ServiceResponse } from "../types/models";
 
-const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
 
 interface Payload {
     action: string;
@@ -17,6 +17,8 @@ export class GoogleSheetsService {
     }
 
     static async request<T>(payload: Payload): Promise<ServiceResponse<T>> {
+        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
         if (!SCRIPT_URL) {
             console.error("VITE_GOOGLE_SCRIPT_URL is missing.");
             return { success: false, message: "Configuration Error" };

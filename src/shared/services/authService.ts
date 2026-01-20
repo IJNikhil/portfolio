@@ -1,4 +1,4 @@
-export const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
 
 class AuthService {
     private static instance: AuthService;
@@ -17,6 +17,7 @@ class AuthService {
      * Authenticate with the backend
      */
     public async login(password: string): Promise<{ success: boolean; message?: string; token?: string }> {
+        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
         if (!SCRIPT_URL) return { success: false, message: "Script URL not configured" };
 
         try {
