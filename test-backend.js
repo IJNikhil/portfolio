@@ -20,7 +20,7 @@ async function testPost() {
         console.log("--- RESPONSE END ---");
 
         try {
-            const json = JSON.parse(text);
+            JSON.parse(text);
             console.log("✅ Valid JSON received");
         } catch (e) {
             console.log("❌ NOT JSON (Likely 'Service Active' error)");

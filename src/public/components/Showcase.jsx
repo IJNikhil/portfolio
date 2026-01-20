@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import { resolveDriveImage } from "../../shared/utils/driveHelper";
