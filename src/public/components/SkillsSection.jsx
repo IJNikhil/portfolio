@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 export default function SkillsSection({ data }) {
   if (!data || data.length === 0) return null;

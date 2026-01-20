@@ -14,7 +14,6 @@ export default function Navigation() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   const { data } = usePortfolio();
-  const { projects, actions, skills, contact } = data; // actions -> achievements (typo in destruct?) Check context.
   // Context has: projects, skills, achievements, contact
 
   // Define navigation items dynamically
@@ -37,7 +36,7 @@ export default function Navigation() {
     };
     const timeout = setTimeout(checkSections, 0);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [navItems]);
 
   useEffect(() => {
     // Handle background blur & hide/show nav on scroll
@@ -112,7 +111,7 @@ export default function Navigation() {
             `}
           >
             {/* Link Items */}
-            {navItems.map((item, idx) => (
+            {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}

@@ -72,7 +72,7 @@ export default function ProjectDetail({ projects }) {
           ADD_ATTR: ["src", "alt"],
         });
         setContent(sanitized);
-      } catch (err) {
+      } catch {
         setError("Could not load README. Please try again later.");
       } finally {
         setLoading(false);
