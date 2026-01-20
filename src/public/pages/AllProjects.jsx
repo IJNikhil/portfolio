@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import GlassCard from "../components/ui/GlassCard";
@@ -7,6 +8,7 @@ import Container from "../components/ui/Container";
 import SectionTitle from "../components/ui/SectionTitle";
 import { usePortfolio } from "../../shared/context/PortfolioContext";
 
+// eslint-disable-next-line no-unused-vars
 const overlayVariants = {
   initial: { opacity: 0 },
   hover: { opacity: 1 },
